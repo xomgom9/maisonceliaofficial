@@ -13,3 +13,4 @@
 - Seed photos are bundled; product_media.storage_path "asset:<key>" resolves through resolveMedia — workspace blocks public buckets, so admin uploads will need a private bucket + signed/proxied URLs.
 - Roles live in user_roles (owner/product_manager/order_manager) checked by SQL helpers in RLS; first owner is claimed once via claim_first_owner() — never hardcode admins.
 - Cart/wishlist stay a localStorage React context; checkout must recompute prices/stock server-side.
+- Admin lives under src/routes/_authenticated/admin*; it uses the browser Supabase client and relies on RLS role helpers (can_manage_products/can_manage_orders) — no server-side admin key needed.
