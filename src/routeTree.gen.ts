@@ -10,14 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ThanhToanRouteImport } from './routes/thanh-toan'
 import { Route as YeuThichRouteImport } from './routes/yeu-thich'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as CategoriesTatCaSanPhamRouteImport } from './routes/categories.tat-ca-san-pham'
 import { Route as SanPhamSlugRouteImport } from './routes/san-pham.$slug'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminDonHangRouteImport } from './routes/_authenticated/admin.don-hang'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThanhToanRoute = ThanhToanRouteImport.update({
@@ -30,6 +44,11 @@ const YeuThichRoute = YeuThichRouteImport.update({
   path: '/yeu-thich',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const CategoriesTatCaSanPhamRoute = CategoriesTatCaSanPhamRouteImport.update({
   id: '/categories/tat-ca-san-pham',
   path: '/categories/tat-ca-san-pham',
@@ -40,55 +59,92 @@ const SanPhamSlugRoute = SanPhamSlugRouteImport.update({
   path: '/san-pham/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminDonHangRoute =
+  AuthenticatedAdminDonHangRouteImport.update({
+    id: '/don-hang',
+    path: '/don-hang',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/yeu-thich': typeof YeuThichRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
+  '/admin/don-hang': typeof AuthenticatedAdminDonHangRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/yeu-thich': typeof YeuThichRoute
   '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
+  '/admin/don-hang': typeof AuthenticatedAdminDonHangRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/yeu-thich': typeof YeuThichRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
+  '/_authenticated/admin/don-hang': typeof AuthenticatedAdminDonHangRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/thanh-toan'
     | '/yeu-thich'
+    | '/admin'
     | '/categories/tat-ca-san-pham'
     | '/san-pham/$slug'
+    | '/admin/don-hang'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/thanh-toan'
     | '/yeu-thich'
     | '/categories/tat-ca-san-pham'
     | '/san-pham/$slug'
+    | '/admin/don-hang'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/thanh-toan'
     | '/yeu-thich'
+    | '/_authenticated/admin'
     | '/categories/tat-ca-san-pham'
     | '/san-pham/$slug'
+    | '/_authenticated/admin/don-hang'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ThanhToanRoute: typeof ThanhToanRoute
   YeuThichRoute: typeof YeuThichRoute
   CategoriesTatCaSanPhamRoute: typeof CategoriesTatCaSanPhamRoute
@@ -102,6 +158,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/thanh-toan': {
@@ -118,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof YeuThichRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/categories/tat-ca-san-pham': {
       id: '/categories/tat-ca-san-pham'
       path: '/categories/tat-ca-san-pham'
@@ -132,11 +209,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SanPhamSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/don-hang': {
+      id: '/_authenticated/admin/don-hang'
+      path: '/don-hang'
+      fullPath: '/admin/don-hang'
+      preLoaderRoute: typeof AuthenticatedAdminDonHangRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminDonHangRoute: typeof AuthenticatedAdminDonHangRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminDonHangRoute: AuthenticatedAdminDonHangRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ThanhToanRoute: ThanhToanRoute,
   YeuThichRoute: YeuThichRoute,
   CategoriesTatCaSanPhamRoute: CategoriesTatCaSanPhamRoute,
