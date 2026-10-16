@@ -11,6 +11,11 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { Toaster } from "sonner";
+import { StoreProvider } from "@/lib/store";
+import { Header } from "@/components/site/Header";
+import { Footer } from "@/components/site/Footer";
+import { CartDrawer } from "@/components/site/CartDrawer";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -78,15 +83,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "CELIA — Thời trang nữ" },
+      { name: "description", content: "CELIA — thời trang nữ thanh lịch, nữ tính, tinh tế." },
+      { property: "og:title", content: "CELIA — Thời trang nữ" },
+      { property: "og:description", content: "CELIA — thời trang nữ thanh lịch, nữ tính, tinh tế." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-    ],
+          ],
     links: [
       {
         rel: "stylesheet",
@@ -103,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <HeadContent />
       </head>
@@ -121,7 +124,15 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <StoreProvider>
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+        <CartDrawer />
+        <Toaster position="top-center" toastOptions={{ style: { borderRadius: 2, fontFamily: "Roboto, Arial, sans-serif" } }} />
+      </StoreProvider>
     </QueryClientProvider>
   );
 }
