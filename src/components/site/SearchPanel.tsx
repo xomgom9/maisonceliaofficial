@@ -7,6 +7,7 @@ import { formatVND, useCatalogSafe } from "@/data/products";
 export function SearchPanel({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
+  const products = useCatalogSafe();
   const results = useMemo(() => {
     const t = q.trim().toLowerCase();
     return t ? products.filter((p) => p.name.toLowerCase().includes(t)) : [];

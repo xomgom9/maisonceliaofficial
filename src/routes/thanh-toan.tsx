@@ -87,7 +87,8 @@ function Checkout() {
           ) : (
             <ul className="space-y-3">
               {cart.map((l) => {
-                const p = products.find((x) => x.id === l.productId)!;
+                const p = products.find((x) => x.id === l.productId);
+                if (!p) return null;
                 return (
                   <li key={l.productId + l.size} className="flex gap-3 text-[13px]">
                     <img src={p.images[0]} alt="" className="h-[72px] w-12 object-cover" />

@@ -5,6 +5,7 @@ import { formatVND, useCatalogSafe } from "@/data/products";
 import { useStore } from "@/lib/store";
 
 export function CartDrawer() {
+  const products = useCatalogSafe();
   const { cart, cartOpen, setCartOpen, setQty, removeLine, subtotal } = useStore();
   return (
     <Sheet open={cartOpen} onOpenChange={setCartOpen}>
