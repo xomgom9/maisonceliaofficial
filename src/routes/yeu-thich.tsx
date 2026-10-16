@@ -32,7 +32,7 @@ function Wishlist() {
         ) : (
           <div className="py-20 text-center">
             <p className="text-[14px]">Bạn chưa lưu sản phẩm nào.</p>
-            <Link to="/" className="mt-5 inline-flex h-11 items-center bg-cart px-6 text-[13px] font-bold text-primary-foreground hover:bg-cart-hover">XEM SẢN PHẨM</Link>
+            <Link to="/categories/tat-ca-san-pham" className="mt-5 inline-flex h-11 items-center bg-cart px-6 text-[13px] font-bold text-primary-foreground hover:bg-cart-hover">XEM SẢN PHẨM</Link>
           </div>
         )}
       </div>

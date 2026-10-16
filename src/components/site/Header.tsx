@@ -30,7 +30,7 @@ function DesktopMenuItem({ item }: { item: MenuItem }) {
   }, [open]);
 
   const labelCls = cn("menu-label flex h-11 items-center gap-1 transition-colors duration-150", item.sale ? "text-sale hover:opacity-80" : "text-foreground hover:text-muted-foreground");
-  if (!item.children) return <li><Link to="/" className={labelCls}>{item.label}</Link></li>;
+  if (!item.children) return <li><Link to="/categories/tat-ca-san-pham" className={labelCls}>{item.label}</Link></li>;
   return (
     <li
       ref={ref}
@@ -46,7 +46,7 @@ function DesktopMenuItem({ item }: { item: MenuItem }) {
         <ul className="border bg-popover py-2">
           {item.children.map((c) => (
             <li key={c}>
-              <Link to="/" onClick={() => setOpen(false)} className="block px-4 py-2 text-[13px] font-light text-foreground hover:bg-muted">{c}</Link>
+              <Link to="/categories/tat-ca-san-pham" onClick={() => setOpen(false)} className="block px-4 py-2 text-[13px] font-light text-foreground hover:bg-muted">{c}</Link>
             </li>
           ))}
         </ul>
@@ -127,13 +127,13 @@ export function Header() {
                     {expanded === m.label && (
                       <ul className="pb-3">
                         {m.children.map((c) => (
-                          <li key={c}><Link to="/" onClick={() => setMenuOpen(false)} className="block py-2.5 pl-3 text-[14px] font-light">{c}</Link></li>
+                          <li key={c}><Link to="/categories/tat-ca-san-pham" onClick={() => setMenuOpen(false)} className="block py-2.5 pl-3 text-[14px] font-light">{c}</Link></li>
                         ))}
                       </ul>
                     )}
                   </>
                 ) : (
-                  <Link to="/" onClick={() => setMenuOpen(false)} className={cn("menu-label flex h-12 items-center", m.sale && "text-sale")}>{m.label}</Link>
+                  <Link to="/categories/tat-ca-san-pham" onClick={() => setMenuOpen(false)} className={cn("menu-label flex h-12 items-center", m.sale && "text-sale")}>{m.label}</Link>
                 )}
               </li>
             ))}
