@@ -12,6 +12,7 @@ type Store = {
   addToCart: (productId: string, size: Size, qty?: number) => void;
   setQty: (productId: string, size: Size, qty: number) => void;
   removeLine: (productId: string, size: Size) => void;
+  clearCart: () => void;
   toggleWish: (id: string) => void;
   isWished: (id: string) => boolean;
   cartCount: number;
@@ -62,6 +63,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const removeLine = useCallback((productId: string, size: Size) => {
     setCart((c) => c.filter((l) => !(l.productId === productId && l.size === size)));
   }, []);
+  const clearCart = useCallback(() => setCart([]), []);
   const toggleWish = useCallback((id: string) => {
     setWishlist((w) => (w.includes(id) ? w.filter((x) => x !== id) : [...w, id]));
   }, []);
