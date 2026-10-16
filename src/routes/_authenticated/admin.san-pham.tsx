@@ -13,9 +13,13 @@ const STATUS: Record<PStatus, string> = { draft: "Nháp", published: "Đang bán
 
 type Form = {
   id?: string; name: string; code: string; slug: string; price: string; compare: string; status: PStatus;
-  categoryId: string; image: string; description: string; color: string; stock: Record<string, string>;
+  categoryId: string; images: string; description: string; color: string; stock: Record<string, string>;
 };
-const empty: Form = { name: "", code: "", slug: "", price: "", compare: "", status: "draft", categoryId: "", image: "", description: "", color: "Mặc định", stock: { S: "0", M: "0", L: "0", XL: "0" } };
+const empty: Form = { name: "", code: "", slug: "", price: "", compare: "", status: "draft", categoryId: "", images: "", description: "", color: "Mặc định", stock: { S: "0", M: "0", L: "0", XL: "0" } };
+
+/** Splits a pasted block of image links (newline, comma or space separated). */
+const parseImageLinks = (raw: string) =>
+  raw.split(/[\n,]+/).map((s) => s.trim()).filter((s) => s.length > 0);
 
 const slugify = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
