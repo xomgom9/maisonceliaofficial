@@ -130,9 +130,6 @@ function ProductPage() {
           {err && <p role="alert" className="mt-2 text-[12px] text-sale">{err}</p>}
           <button onClick={() => setSizeChart(true)} className="mt-3 text-[13px] font-light underline underline-offset-4">Bảng Size</button>
           <hr className="my-5" />
-          <button onClick={() => toast("Thông tin cửa hàng đang được cập nhật.")} className="flex h-[46px] w-full items-center justify-between bg-cart px-4 text-[13px] font-bold tracking-[0.02em] text-primary-foreground hover:bg-cart-hover">
-            XEM VÀ THỬ TẠI CỬA HÀNG <ChevronRight className="h-4 w-4" />
-          </button>
           <button onClick={onBuy} className="mt-[10px] h-[46px] w-full bg-buy text-[14px] font-bold tracking-[0.02em] text-primary-foreground transition-colors duration-150 hover:bg-buy-hover">MUA NGAY</button>
           <button onClick={onAdd} disabled={busy} className="mt-[10px] h-[46px] w-full bg-cart text-[13px] font-bold tracking-[0.02em] text-primary-foreground transition-colors duration-150 hover:bg-cart-hover">Thêm vào giỏ hàng</button>
           <div className="mt-6 border-t">

@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { ProductCard } from "@/components/site/ProductCard";
 import { catalogQuery, useCatalog, type Product } from "@/data/products";
 import heroDesktop from "@/assets/hero-desktop.webp";
 import heroReveal from "@/assets/hero-reveal.webp";
-import { HeroReveal } from "@/components/site/HeroReveal";
 import heroMobile from "@/assets/hero-mobile.webp";
 import spotlight from "@/assets/spotlight.webp";
 
@@ -42,10 +42,54 @@ function Grid4({ items }: { items: Product[] }) {
   );
 }
 
+const HERO_SLIDES_DESKTOP = [
+  { src: heroDesktop, alt: "Người mẫu mặc váy midi trong không gian kiến trúc trắng" },
+  { src: heroReveal, alt: "Người mẫu mặc váy satin trắng phối chi tiết bạc" },
+  { src: spotlight, alt: "Thiết kế dự tiệc nổi bật của CELIA" },
+];
+const HERO_SLIDES_MOBILE = [
+  { src: heroMobile, alt: "Người mẫu mặc váy midi trong không gian kiến trúc trắng" },
+  { src: heroReveal, alt: "Người mẫu mặc váy satin trắng phối chi tiết bạc" },
+  { src: spotlight, alt: "Thiết kế dự tiệc nổi bật của CELIA" },
+];
+const SLIDE_MS = 5000;
+
+function HeroSlides({ slides, className }: { slides: { src: string; alt: string }[]; className?: string }) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), SLIDE_MS);
+    return () => clearInterval(t);
+  }, [slides.length]);
+  return (
+    <div className={className}>
+      {slides.map((s, i) => (
+        <img
+          key={s.src}
+          src={s.src}
+          alt={i === index ? s.alt : ""}
+          aria-hidden={i !== index}
+          fetchPriority={i === 0 ? "high" : "auto"}
+          className={`absolute inset-0 h-full w-full object-cover object-[50%_15%] transition-opacity duration-1000 ease-celia ${i === index ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+        {slides.map((s, i) => (
+          <button
+            key={s.src}
+            aria-label={`Ảnh ${i + 1}`}
+            onClick={() => setIndex(i)}
+            className={`h-[3px] w-7 transition-colors duration-300 ${i === index ? "bg-foreground" : "bg-foreground/30"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
-    <section aria-label="Bộ sưu tập mới" className="group/hero relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
-      <HeroReveal base={heroDesktop} reveal={heroReveal} />
+    <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
+      <HeroSlides slides={HERO_SLIDES_DESKTOP} className="absolute inset-0 hidden lg:block" />
       <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:inset-y-0 lg:left-[5vw] lg:flex lg:w-[min(560px,42vw)] lg:flex-col lg:justify-center lg:p-0">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-foreground md:text-[12px]">CELIA — New Collection</p>
         <h1 className="mt-4 text-[clamp(2.15rem,3.6vw+0.75rem,4.5rem)] uppercase leading-[1.02] tracking-[-0.01em]">
@@ -57,7 +101,7 @@ function Hero() {
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 md:mt-8">
           <Link
             to="/categories/tat-ca-san-pham"
-            className="group inline-flex h-[50px] items-center gap-2 bg-cart px-7 text-[13px] font-bold uppercase tracking-[0.06em] text-primary-foreground transition-[background-color,letter-spacing] duration-200 hover:bg-cart-hover hover:tracking-[0.1em]"
+            className="group inline-flex h-[50px] items-center gap-2 bg-cart px-7 text-[13px] font-bold uppercase tracking-[0.06em] text-primary-foreground transition-colors duration-200 hover:bg-cart-hover"
           >
             Khám phá bộ sưu tập
             <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-[3px]" strokeWidth={1.5} />
@@ -67,9 +111,7 @@ function Hero() {
           </Link>
         </div>
       </div>
-      <div className="relative mx-5 mt-8 aspect-[4/5] overflow-hidden border border-border bg-placeholder sm:mx-6 sm:aspect-[16/9] lg:hidden">
-        <img src={heroMobile} alt="Người mẫu mặc váy midi trong không gian kiến trúc trắng" width={720} height={1280} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[50%_15%] transition-transform duration-[1400ms] ease-celia group-hover/hero:scale-[1.04]" />
-      </div>
+      <HeroSlides slides={HERO_SLIDES_MOBILE} className="relative mx-5 mt-8 aspect-[4/5] overflow-hidden border border-border bg-placeholder sm:mx-6 sm:aspect-[16/9] lg:hidden" />
     </section>
   );
 }
