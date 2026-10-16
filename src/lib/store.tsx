@@ -1,3 +1,4 @@
+import type * as React from "react";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useCatalogSafe, type Size } from "@/data/products";
 
@@ -17,7 +18,9 @@ type Store = {
   subtotal: number;
 };
 
-const Ctx = createContext<Store | null>(null);
+// Keep one context instance across hot reloads so provider and consumers always match.
+const g = globalThis as unknown as { __celiaStoreCtx?: React.Context<Store | null> };
+const Ctx = g.__celiaStoreCtx ?? (g.__celiaStoreCtx = createContext<Store | null>(null));
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartLine[]>([]);
