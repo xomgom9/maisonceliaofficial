@@ -52,12 +52,13 @@ function Hero() {
           width={720}
           height={1280}
           fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-[50%_20%] md:object-[60%_35%]"
+          className="absolute inset-0 h-full w-full object-cover object-[50%_0%] md:object-[60%_35%]"
         />
       </picture>
-      <div className="hero-copy absolute inset-x-0 bottom-[8%] px-5 sm:px-6 md:bottom-auto md:left-[6vw] md:right-auto md:top-1/2 md:w-[min(500px,40vw)] md:-translate-y-[35%] md:px-0">
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-background/75 via-background/40 to-transparent md:hidden" />
+      <div className="hero-copy absolute inset-x-0 bottom-[8%] px-5 sm:px-6 md:bottom-auto md:left-[6vw] md:right-auto md:top-1/2 md:w-[min(540px,42vw)] md:-translate-y-1/2 md:px-0">
         <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-foreground md:text-[12px]">CELIA — New Collection</p>
-        <h1 className="mt-3 text-[36px] uppercase leading-[1.1] tracking-[-0.01em] md:mt-4 md:text-[clamp(48px,4.6vw,72px)]">
+        <h1 className="mt-3 text-[36px] uppercase leading-[1.1] tracking-[-0.01em] md:mt-4 md:text-[clamp(44px,4.2vw,68px)]">
           Thanh lịch<br />theo cách riêng.
         </h1>
         <p className="mt-3 max-w-[420px] text-[15px] font-light leading-[1.6] text-foreground md:mt-5 md:text-[16px]">
