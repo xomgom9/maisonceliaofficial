@@ -11,7 +11,7 @@ export function SearchPanel({ open, onOpenChange }: { open: boolean; onOpenChang
   const results = useMemo(() => {
     const t = q.trim().toLowerCase();
     return t ? products.filter((p) => p.name.toLowerCase().includes(t)) : [];
-  }, [q]);
+  }, [q, products]);
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="top" className="max-h-[80vh] overflow-y-auto p-0 [&>button]:hidden">
