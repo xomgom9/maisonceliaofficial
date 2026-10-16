@@ -9,16 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThanhToanRouteImport } from './routes/thanh-toan'
 import { Route as YeuThichRouteImport } from './routes/yeu-thich'
+import { Route as CategoriesTatCaSanPhamRouteImport } from './routes/categories.tat-ca-san-pham'
 import { Route as SanPhamSlugRouteImport } from './routes/san-pham.$slug'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ThanhToanRoute = ThanhToanRouteImport.update({
   id: '/thanh-toan',
   path: '/thanh-toan',
@@ -29,6 +24,11 @@ const YeuThichRoute = YeuThichRouteImport.update({
   path: '/yeu-thich',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoriesTatCaSanPhamRoute = CategoriesTatCaSanPhamRouteImport.update({
+  id: '/categories/tat-ca-san-pham',
+  path: '/categories/tat-ca-san-pham',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SanPhamSlugRoute = SanPhamSlugRouteImport.update({
   id: '/san-pham/$slug',
   path: '/san-pham/$slug',
@@ -36,48 +36,54 @@ const SanPhamSlugRoute = SanPhamSlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/yeu-thich': typeof YeuThichRoute
+  '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/yeu-thich': typeof YeuThichRoute
+  '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/yeu-thich': typeof YeuThichRoute
+  '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/thanh-toan' | '/yeu-thich' | '/san-pham/$slug'
+  fullPaths:
+    | '/thanh-toan'
+    | '/yeu-thich'
+    | '/categories/tat-ca-san-pham'
+    | '/san-pham/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/thanh-toan' | '/yeu-thich' | '/san-pham/$slug'
-  id: '__root__' | '/' | '/thanh-toan' | '/yeu-thich' | '/san-pham/$slug'
+  to:
+    | '/thanh-toan'
+    | '/yeu-thich'
+    | '/categories/tat-ca-san-pham'
+    | '/san-pham/$slug'
+  id:
+    | '__root__'
+    | '/thanh-toan'
+    | '/yeu-thich'
+    | '/categories/tat-ca-san-pham'
+    | '/san-pham/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   ThanhToanRoute: typeof ThanhToanRoute
   YeuThichRoute: typeof YeuThichRoute
+  CategoriesTatCaSanPhamRoute: typeof CategoriesTatCaSanPhamRoute
   SanPhamSlugRoute: typeof SanPhamSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/thanh-toan': {
       id: '/thanh-toan'
       path: '/thanh-toan'
@@ -92,6 +98,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof YeuThichRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/categories/tat-ca-san-pham': {
+      id: '/categories/tat-ca-san-pham'
+      path: '/categories/tat-ca-san-pham'
+      fullPath: '/categories/tat-ca-san-pham'
+      preLoaderRoute: typeof CategoriesTatCaSanPhamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/san-pham/$slug': {
       id: '/san-pham/$slug'
       path: '/san-pham/$slug'
@@ -103,9 +116,9 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   ThanhToanRoute: ThanhToanRoute,
   YeuThichRoute: YeuThichRoute,
+  CategoriesTatCaSanPhamRoute: CategoriesTatCaSanPhamRoute,
   SanPhamSlugRoute: SanPhamSlugRoute,
 }
 export const routeTree = rootRouteImport

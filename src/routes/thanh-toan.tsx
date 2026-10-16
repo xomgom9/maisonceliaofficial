@@ -83,7 +83,7 @@ function Checkout() {
         <aside className="h-fit border p-5">
           <h2 className="mb-4 text-[16px]">Tóm tắt đơn hàng</h2>
           {!cart.length ? (
-            <p className="text-[13px]">Giỏ hàng trống. <Link to="/" className="underline">Tiếp tục mua sắm</Link></p>
+            <p className="text-[13px]">Giỏ hàng trống. <Link to="/categories/tat-ca-san-pham" className="underline">Tiếp tục mua sắm</Link></p>
           ) : (
             <ul className="space-y-3">
               {cart.map((l) => {

@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ProductGrid } from "@/components/site/ProductCard";
 import { catalogQuery, useCatalog } from "@/data/products";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/categories/tat-ca-san-pham")({
   head: () => ({
     meta: [
       { title: "Tất cả sản phẩm — CELIA" },
@@ -15,10 +15,10 @@ export const Route = createFileRoute("/")({
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),
-  component: Index,
+  component: AllProducts,
 });
 
-function Index() {
+function AllProducts() {
   const products = useCatalog();
   return (
     <>
