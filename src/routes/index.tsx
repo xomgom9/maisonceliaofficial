@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ProductGrid } from "@/components/site/ProductCard";
-import { products } from "@/data/products";
+import { catalogQuery, useCatalog } from "@/data/products";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -14,10 +14,12 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),
   component: Index,
 });
 
 function Index() {
+  const products = useCatalog();
   return (
     <>
       <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "TẤT CẢ SẢN PHẨM" }]} />

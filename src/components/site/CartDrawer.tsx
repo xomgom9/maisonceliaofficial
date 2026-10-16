@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Minus, Plus, X } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { formatVND, products } from "@/data/products";
+import { formatVND, useCatalogSafe } from "@/data/products";
 import { useStore } from "@/lib/store";
 
 export function CartDrawer() {

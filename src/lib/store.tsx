@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { products, type Size } from "@/data/products";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCatalogSafe, type Size } from "@/data/products";
 
 export type CartLine = { productId: string; size: Size; qty: number };
 
@@ -35,7 +35,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => { if (loaded) localStorage.setItem("celia-cart", JSON.stringify(cart)); }, [cart, loaded]);
   useEffect(() => { if (loaded) localStorage.setItem("celia-wish", JSON.stringify(wishlist)); }, [wishlist, loaded]);
 
-  const maxFor = (id: string, size: Size) => products.find((p) => p.id === id)?.stock[size] ?? 0;
+  const products = useCatalogSafe();
+  const productsRef = useRef(products);
+  productsRef.current = products;
+  const maxFor = (id: string, size: Size) => productsRef.current.find((p) => p.id === id)?.stock[size] ?? 99;
 
   const addToCart = useCallback((productId: string, size: Size, qty = 1) => {
     setCart((c) => {
@@ -63,7 +66,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const cartCount = cart.reduce((a, l) => a + l.qty, 0);
     const subtotal = cart.reduce((a, l) => a + l.qty * (products.find((p) => p.id === l.productId)?.price ?? 0), 0);
     return { cart, wishlist, cartOpen, setCartOpen, addToCart, setQty, removeLine, toggleWish, isWished: (id) => wishlist.includes(id), cartCount, subtotal };
-  }, [cart, wishlist, cartOpen, addToCart, setQty, removeLine, toggleWish]);
+  }, [cart, wishlist, cartOpen, addToCart, setQty, removeLine, toggleWish, products]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { formatVND, products } from "@/data/products";
+import { formatVND, useCatalogSafe } from "@/data/products";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/thanh-toan")({
@@ -29,6 +29,7 @@ const FIELDS = [
 
 function Checkout() {
   const { cart, subtotal } = useStore();
+  const products = useCatalogSafe();
   const [vals, setVals] = useState<Record<string, string>>({});
   const [errs, setErrs] = useState<Record<string, string>>({});
   const [notice, setNotice] = useState("");
