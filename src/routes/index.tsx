@@ -88,7 +88,7 @@ function HeroSlides({ slides, className }: { slides: { src: string; alt: string 
 
 function Hero() {
   return (
-    <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
+    <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:aspect-[4/3] lg:max-h-[900px]">
       <HeroSlides slides={HERO_SLIDES_DESKTOP} className="absolute inset-0 hidden lg:block" />
       <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:inset-y-0 lg:left-[5vw] lg:flex lg:w-[min(560px,42vw)] lg:flex-col lg:justify-center lg:p-0">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-foreground md:text-[12px]">CELIA — New Collection</p>
@@ -111,7 +111,7 @@ function Hero() {
           </Link>
         </div>
       </div>
-      <HeroSlides slides={HERO_SLIDES_MOBILE} className="relative mx-5 mt-8 aspect-[4/5] overflow-hidden border border-border bg-placeholder sm:mx-6 sm:aspect-[16/9] lg:hidden" />
+      <HeroSlides slides={HERO_SLIDES_MOBILE} className="relative mx-5 mt-8 aspect-[4/3] overflow-hidden border border-border bg-placeholder sm:mx-6 lg:hidden" />
     </section>
   );
 }
