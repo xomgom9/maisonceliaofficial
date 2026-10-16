@@ -34,9 +34,15 @@ export type Product = {
 export const SIZES: Size[] = ["S", "M", "L", "XL"];
 export const formatVND = (n: number) => n.toLocaleString("vi-VN") + " ₫";
 
+/** Converts a Google Drive share link to a directly-embeddable image URL. */
+export function driveImageUrl(url: string): string {
+  const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]+)/) ?? url.match(/[?&]id=([\w-]+)/);
+  return m ? `https://lh3.googleusercontent.com/d/${m[1]}` : url;
+}
+
 export function resolveMedia(path: string): string {
   if (path.startsWith("asset:")) return BUNDLED[path.slice(6)] ?? "";
-  return path;
+  return driveImageUrl(path);
 }
 
 function toProduct(p: CatalogProduct): Product {
