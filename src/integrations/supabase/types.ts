@@ -787,6 +787,7 @@ export type Database = {
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       owner_exists: { Args: never; Returns: boolean }
+      place_order: { Args: { payload: Json }; Returns: Json }
       product_is_public: { Args: { _pid: string }; Returns: boolean }
     }
     Enums: {
