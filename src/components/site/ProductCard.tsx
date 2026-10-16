@@ -5,7 +5,7 @@ import { formatVND, type Product } from "@/data/products";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
-export function ProductImage({ src, alt, eager, className }: { src: string; alt: string; eager?: boolean; className?: string }) {
+export function ProductImage({ src, alt, eager, className }: { src: string; alt: string; eager?: boolean | undefined; className?: string | undefined }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <img
