@@ -44,7 +44,7 @@ function Grid4({ items }: { items: Product[] }) {
 
 function Hero() {
   return (
-    <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
+    <section aria-label="Bộ sưu tập mới" className="group/hero relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
       <HeroReveal base={heroDesktop} reveal={heroReveal} />
       <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:inset-y-0 lg:left-[5vw] lg:flex lg:w-[min(560px,42vw)] lg:flex-col lg:justify-center lg:p-0">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-foreground md:text-[12px]">CELIA — New Collection</p>
@@ -57,7 +57,7 @@ function Hero() {
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 md:mt-8">
           <Link
             to="/categories/tat-ca-san-pham"
-            className="group inline-flex h-[50px] items-center gap-2 bg-cart px-7 text-[13px] font-bold uppercase tracking-[0.06em] text-primary-foreground transition-colors duration-150 hover:bg-cart-hover"
+            className="group inline-flex h-[50px] items-center gap-2 bg-cart px-7 text-[13px] font-bold uppercase tracking-[0.06em] text-primary-foreground transition-[background-color,letter-spacing] duration-200 hover:bg-cart-hover hover:tracking-[0.1em]"
           >
             Khám phá bộ sưu tập
             <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-[3px]" strokeWidth={1.5} />
@@ -68,7 +68,7 @@ function Hero() {
         </div>
       </div>
       <div className="relative mx-5 mt-8 aspect-[4/5] overflow-hidden border border-border bg-placeholder sm:mx-6 sm:aspect-[16/9] lg:hidden">
-        <img src={heroMobile} alt="Người mẫu mặc váy midi trong không gian kiến trúc trắng" width={720} height={1280} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[50%_15%]" />
+        <img src={heroMobile} alt="Người mẫu mặc váy midi trong không gian kiến trúc trắng" width={720} height={1280} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[50%_15%] transition-transform duration-[1400ms] ease-celia group-hover/hero:scale-[1.04]" />
       </div>
     </section>
   );
@@ -100,7 +100,7 @@ function Home() {
             {categories.map(([name, img]) => (
               <Link key={name} to="/categories/tat-ca-san-pham" className="group block">
                 <div className="relative aspect-[4/5] overflow-hidden bg-placeholder md:aspect-[2/3]">
-                  <img src={img} alt={name} loading="lazy" width={672} height={992} className="absolute inset-0 h-full w-full object-cover" />
+                  <img src={img} alt={name} loading="lazy" width={672} height={992} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-celia group-hover:scale-[1.05]" />
                 </div>
                 <p className="py-3 text-[13px] font-bold uppercase tracking-[0.06em] text-foreground underline-offset-4 group-hover:underline">{name}</p>
               </Link>

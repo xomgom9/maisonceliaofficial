@@ -55,7 +55,7 @@ function DesktopMenuItem({ item }: { item: MenuItem }) {
   );
 }
 
-function IconBtn({ label, onClick, children, badge, to }: { label: string; onClick?: () => void; children: ReactNode; badge?: number; to?: "/yeu-thich" }) {
+function IconBtn({ label, onClick, children, badge, to }: { label: string; onClick?: () => void; children: ReactNode; badge?: number; to?: "/yeu-thich" | "/admin" }) {
   const inner = (
     <>
       {children}
@@ -97,7 +97,7 @@ export function Header() {
           <BrandLogo />
           <div className="flex items-center justify-end">
             <span className="hidden md:contents">
-              <IconBtn label="Tài khoản"><User className={ic} strokeWidth={1.25} /></IconBtn>
+              <IconBtn label="Tài khoản" to="/admin"><User className={ic} strokeWidth={1.25} /></IconBtn>
               <IconBtn label="Yêu thích" to="/yeu-thich" badge={wishlist.length}><Heart className={ic} strokeWidth={1.25} /></IconBtn>
             </span>
             <IconBtn label="Tìm kiếm" onClick={() => setSearchOpen(true)}><Search className={ic} strokeWidth={1.25} /></IconBtn>

@@ -70,7 +70,7 @@ export function HeroReveal({ base, reveal }: { base: string; reveal: string }) {
     };
   }, []);
 
-  const layer = "absolute inset-0 bg-cover bg-center bg-no-repeat";
+  const layer = "absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[1400ms] ease-celia group-hover/hero:scale-[1.04]";
   return (
     <div ref={wrap} aria-hidden className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block">
       <div className={layer} style={{ backgroundImage: `url(${base})` }} />
