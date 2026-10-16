@@ -8,4 +8,7 @@
 - [ ] Admin photo upload from computer (needs private storage + signed URLs; currently image link)
 - [x] Remove "Xem và thử tại cửa hàng" (online-only store)
 - [x] Hero: remove hover/reveal effects, convert to auto slideshow
-- [x] Update memory: UI font now luxury serif (Cormorant Garamond)
+- [x] Update memory: UI font Roboto Condensed
+- [ ] Mobile: reduce scrolling — product grids become auto-advancing carousels
+- [ ] Real checkout: placeOrder server function (recompute price/stock, create order, decrement stock)
+- [ ] Telegram new-order notification (order number, customer name, total) — needs Telegram connector linked
