@@ -74,8 +74,7 @@ function Checkout() {
           items,
         },
       });
-      cart.forEach((l) => setQty(l.productId, l.size, 0));
-      localStorage.removeItem("celia-cart");
+      clearCart();
       setDone({ order_number: order.order_number, total: order.total });
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "Không tạo được đơn hàng. Vui lòng thử lại.");
