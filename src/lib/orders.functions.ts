@@ -41,6 +41,7 @@ async function notifyTelegram(order: PlaceOrderResult, customerName: string) {
   // Fallback: owner's verified personal chat ID (secret update form was skipped).
   const chatId = process.env["TELEGRAM_CHAT_ID"] ?? "1678508533";
   if (!lovKey || !tgKey) return;
+  try {
     const text = [
       "🛍️ <b>Đơn hàng mới — CELIA</b>",
       `Mã đơn: <b>${order.order_number}</b>`,
