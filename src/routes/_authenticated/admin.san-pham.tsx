@@ -27,6 +27,12 @@ function AdminProducts() {
   const qc = useQueryClient();
   const [form, setForm] = useState<Form | null>(null);
   const [saving, setSaving] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkStatus, setBulkStatus] = useState("");
+  const [bulkCategory, setBulkCategory] = useState("");
+  const [bulkPrice, setBulkPrice] = useState("");
+  const [bulkBusy, setBulkBusy] = useState(false);
+
 
   const { data: cats } = useQuery({ queryKey: ["admin-cats"], queryFn: async () => (await supabase.from("categories").select("id, name").order("sort_order")).data ?? [] });
   const { data: products, isLoading } = useQuery({
