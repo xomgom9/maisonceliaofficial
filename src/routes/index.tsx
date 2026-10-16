@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { ProductCard } from "@/components/site/ProductCard";
+import { ProductCarousel } from "@/components/site/ProductCarousel";
 import { catalogQuery, useCatalog, type Product } from "@/data/products";
 import heroDesktop from "@/assets/hero-desktop.webp";
 import heroReveal from "@/assets/hero-reveal.webp";
@@ -35,11 +35,7 @@ function SectionHead({ title, link = true }: { title: string; link?: boolean }) 
 }
 
 function Grid4({ items }: { items: Product[] }) {
-  return (
-    <div className="grid grid-cols-2 gap-x-[3px] lg:grid-cols-4">
-      {items.map((p) => <ProductCard key={p.id} product={p} />)}
-    </div>
-  );
+  return <ProductCarousel items={items} gridClass="lg:grid-cols-4" />;
 }
 
 const HERO_SLIDES_DESKTOP = [

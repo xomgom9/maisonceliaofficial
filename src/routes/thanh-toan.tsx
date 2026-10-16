@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { formatVND, useCatalogSafe } from "@/data/products";
+import { placeOrder } from "@/lib/orders.functions";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/thanh-toan")({
@@ -28,14 +29,19 @@ const FIELDS = [
 ] as const;
 
 function Checkout() {
-  const { cart, subtotal } = useStore();
+  const { cart, subtotal, clearCart } = useStore();
   const products = useCatalogSafe();
   const [vals, setVals] = useState<Record<string, string>>({});
   const [errs, setErrs] = useState<Record<string, string>>({});
   const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState<{ order_number: string; total: number } | null>(null);
+  // Stable idempotency key per checkout session so a double-submit can't create two orders.
+  const [idemKey] = useState(() => crypto.randomUUID());
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     const n: Record<string, string> = {};
     FIELDS.forEach((f) => { if (!vals[f.id]?.trim()) n[f.id] = `Vui lòng nhập ${f.label.toLowerCase()}.`; });
     const email = vals["email"], phone = vals["phone"];
@@ -44,8 +50,57 @@ function Checkout() {
     setErrs(n);
     const first = Object.keys(n)[0];
     if (first) { document.getElementById(first)?.focus(); setNotice(""); return; }
-    setNotice("Đây là bản demo: thông tin hợp lệ nhưng đơn hàng chưa được ghi nhận vì chưa kết nối hệ thống đặt hàng.");
+
+    const items = cart
+      .map((l) => {
+        const p = products.find((x) => x.id === l.productId);
+        const variantId = p?.variantIds[l.size];
+        return variantId ? { variant_id: variantId, qty: l.qty } : null;
+      })
+      .filter((x): x is { variant_id: string; qty: number } => !!x);
+    if (!items.length) { setNotice("Giỏ hàng trống hoặc sản phẩm không còn bán."); return; }
+
+    setBusy(true);
+    setNotice("");
+    try {
+      const order = await placeOrder({
+        data: {
+          customer_name: vals["name"]!.trim(),
+          phone: vals["phone"]!.trim(),
+          email: vals["email"]?.trim() ?? "",
+          address: vals["address"]!.trim(),
+          province: vals["city"]!.trim(),
+          idempotency_key: idemKey,
+          items,
+        },
+      });
+      clearCart();
+      setDone({ order_number: order.order_number, total: order.total });
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : "Không tạo được đơn hàng. Vui lòng thử lại.");
+    } finally {
+      setBusy(false);
+    }
   };
+
+  if (done) {
+    return (
+      <>
+        <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "THANH TOÁN" }]} />
+        <div className="mx-auto max-w-[560px] px-[15px] py-16 text-center">
+          <h1 className="text-[24px] uppercase tracking-[0.04em]">Đặt hàng thành công</h1>
+          <p className="mt-4 text-[15px] leading-[1.7]">
+            Cảm ơn bạn! Đơn hàng <span className="font-bold">{done.order_number}</span> trị giá{" "}
+            <span className="font-bold">{formatVND(done.total)}</span> đã được ghi nhận.
+            CELIA sẽ liên hệ xác nhận qua điện thoại trước khi giao hàng.
+          </p>
+          <Link to="/categories/tat-ca-san-pham" className="mt-8 inline-flex h-[46px] items-center bg-cart px-7 text-[13px] font-bold uppercase tracking-[0.06em] text-primary-foreground hover:bg-cart-hover">
+            Tiếp tục mua sắm
+          </Link>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -53,7 +108,6 @@ function Checkout() {
       <div className="mx-auto grid max-w-[1180px] gap-10 px-[15px] py-8 lg:grid-cols-[1fr_400px]">
         <form onSubmit={submit} noValidate className="space-y-8">
           <h1 className="text-[24px] lg:text-[28px]">Thanh toán</h1>
-          <p className="border bg-muted p-3 text-[13px]">Chế độ demo — không thu thập thông tin thẻ và không tạo đơn hàng thật.</p>
           <section className="space-y-4">
             <h2 className="text-[18px] lg:text-[22px]">Thông tin liên hệ & địa chỉ nhận</h2>
             {FIELDS.map((f) => (
@@ -71,14 +125,16 @@ function Checkout() {
           </section>
           <section>
             <h2 className="mb-2 text-[18px] lg:text-[22px]">Vận chuyển</h2>
-            <p className="text-[14px] font-light">Phí vận chuyển sẽ được xác nhận khi kết nối dữ liệu giao hàng.</p>
+            <p className="text-[14px] font-light">Phí vận chuyển sẽ được CELIA xác nhận khi gọi điện xác nhận đơn.</p>
           </section>
           <section>
             <h2 className="mb-2 text-[18px] lg:text-[22px]">Thanh toán</h2>
-            <p className="text-[14px] font-light">Phương thức thanh toán chưa được kết nối.</p>
+            <p className="text-[14px] font-light">Thanh toán khi nhận hàng (COD).</p>
           </section>
-          <button disabled={!cart.length} className="h-[46px] w-full bg-buy text-[13px] font-bold tracking-[0.02em] text-primary-foreground hover:bg-buy-hover disabled:opacity-40">ĐẶT HÀNG (DEMO)</button>
-          {notice && <p role="status" className="border p-3 text-[13px]">{notice}</p>}
+          <button disabled={!cart.length || busy} className="h-[46px] w-full bg-buy text-[13px] font-bold tracking-[0.02em] text-primary-foreground hover:bg-buy-hover disabled:opacity-40">
+            {busy ? "ĐANG ĐẶT HÀNG…" : "ĐẶT HÀNG"}
+          </button>
+          {notice && <p role="alert" className="border border-sale p-3 text-[13px] text-sale">{notice}</p>}
         </form>
         <aside className="h-fit border p-5">
           <h2 className="mb-4 text-[16px]">Tóm tắt đơn hàng</h2>
