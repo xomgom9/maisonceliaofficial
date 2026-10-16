@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ThanhToanRouteImport } from './routes/thanh-toan'
+import { Route as YeuThichRouteImport } from './routes/yeu-thich'
+import { Route as SanPhamSlugRouteImport } from './routes/san-pham.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThanhToanRoute = ThanhToanRouteImport.update({
+  id: '/thanh-toan',
+  path: '/thanh-toan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YeuThichRoute = YeuThichRouteImport.update({
+  id: '/yeu-thich',
+  path: '/yeu-thich',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SanPhamSlugRoute = SanPhamSlugRouteImport.update({
+  id: '/san-pham/$slug',
+  path: '/san-pham/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/thanh-toan': typeof ThanhToanRoute
+  '/yeu-thich': typeof YeuThichRoute
+  '/san-pham/$slug': typeof SanPhamSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/thanh-toan': typeof ThanhToanRoute
+  '/yeu-thich': typeof YeuThichRoute
+  '/san-pham/$slug': typeof SanPhamSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/thanh-toan': typeof ThanhToanRoute
+  '/yeu-thich': typeof YeuThichRoute
+  '/san-pham/$slug': typeof SanPhamSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/thanh-toan' | '/yeu-thich' | '/san-pham/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/thanh-toan' | '/yeu-thich' | '/san-pham/$slug'
+  id: '__root__' | '/' | '/thanh-toan' | '/yeu-thich' | '/san-pham/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ThanhToanRoute: typeof ThanhToanRoute
+  YeuThichRoute: typeof YeuThichRoute
+  SanPhamSlugRoute: typeof SanPhamSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thanh-toan': {
+      id: '/thanh-toan'
+      path: '/thanh-toan'
+      fullPath: '/thanh-toan'
+      preLoaderRoute: typeof ThanhToanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yeu-thich': {
+      id: '/yeu-thich'
+      path: '/yeu-thich'
+      fullPath: '/yeu-thich'
+      preLoaderRoute: typeof YeuThichRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/san-pham/$slug': {
+      id: '/san-pham/$slug'
+      path: '/san-pham/$slug'
+      fullPath: '/san-pham/$slug'
+      preLoaderRoute: typeof SanPhamSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ThanhToanRoute: ThanhToanRoute,
+  YeuThichRoute: YeuThichRoute,
+  SanPhamSlugRoute: SanPhamSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
