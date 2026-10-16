@@ -9,6 +9,7 @@
 - [x] Remove "Xem và thử tại cửa hàng" (online-only store)
 - [x] Hero: remove hover/reveal effects, convert to auto slideshow
 - [x] Update memory: UI font Roboto Condensed
-- [ ] Mobile: reduce scrolling — product grids become auto-advancing carousels
-- [ ] Real checkout: placeOrder server function (recompute price/stock, create order, decrement stock)
-- [ ] Telegram new-order notification (order number, customer name, total) — needs Telegram connector linked
+- [ ] Mobile: product grids + category cards become horizontal swipe rows (no auto-slide)
+- [ ] Mobile: compact footer (horizontal rows, less vertical length)
+- [x] Real checkout: place_order RPC + placeOrder server function (recompute price/stock, create order, decrement stock)
+- [ ] Telegram new-order notification (order number, customer name, total) — connector linked; needs TELEGRAM_CHAT_ID after user messages the bot

@@ -107,7 +107,7 @@ function Hero() {
           </Link>
         </div>
       </div>
-      <HeroSlides slides={HERO_SLIDES_MOBILE} className="relative mx-5 mt-8 aspect-[4/3] overflow-hidden border border-border bg-placeholder sm:mx-6 lg:hidden" />
+      <HeroSlides slides={HERO_SLIDES_MOBILE} className="img-soft relative mx-5 mt-8 aspect-[4/3] overflow-hidden bg-placeholder sm:mx-6 lg:hidden" />
     </section>
   );
 }
@@ -134,10 +134,10 @@ function Home() {
       {categories.length > 0 && (
         <section className="px-[11px] pt-10 md:px-[15px] md:pt-16">
           <SectionHead title="Khám phá phong cách" link={false} />
-          <div className="grid gap-[3px] md:grid-cols-3">
+          <div className="flex snap-x snap-mandatory gap-[3px] overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-3 md:overflow-visible [&::-webkit-scrollbar]:hidden">
             {categories.map(([name, img]) => (
-              <Link key={name} to="/categories/tat-ca-san-pham" className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden bg-placeholder md:aspect-[2/3]">
+              <Link key={name} to="/categories/tat-ca-san-pham" className="group block w-[62vw] shrink-0 snap-start md:w-auto">
+                <div className="img-soft relative aspect-[4/5] overflow-hidden bg-placeholder md:aspect-[2/3]">
                   <img src={img} alt={name} loading="lazy" width={672} height={992} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-celia group-hover:scale-[1.05]" />
                 </div>
                 <p className="py-3 text-[13px] font-bold uppercase tracking-[0.06em] text-foreground underline-offset-4 group-hover:underline">{name}</p>
@@ -149,7 +149,7 @@ function Home() {
 
       <section className="px-[11px] pt-10 md:px-[15px] md:pt-16">
         <div className="grid items-center gap-6 md:grid-cols-[3fr_2fr] md:gap-12">
-          <div className="relative aspect-[4/5] overflow-hidden bg-placeholder md:aspect-[5/4]">
+          <div className="img-soft relative aspect-[4/5] overflow-hidden bg-placeholder md:aspect-[5/4]">
             <img src={spotlight} alt="Người mẫu mặc đầm dạ hội màu than" loading="lazy" width={900} height={1125} className="absolute inset-0 h-full w-full object-cover object-[50%_25%]" />
           </div>
           <div className="pb-2 md:pr-[6vw]">

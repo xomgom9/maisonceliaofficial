@@ -14,17 +14,17 @@ export function Footer() {
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   return (
     <footer className="mt-16 border-t bg-background px-[15px] pb-10 pt-12 lg:px-[60px]">
-      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr_1.4fr]">
-        <div>
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr_1.4fr] lg:gap-10">
+        <div className="col-span-2 md:col-span-1">
           <BrandLogo className="text-[36px]" />
           <p className="mt-3 text-[12px] font-light tracking-[0.12em]">FEMININE. CLASSIC. ELEGANT</p>
         </div>
         {COLS.map((c) => (
           <div key={c.title}>
-            <h3 className="mb-3 text-[13px]">{c.title}</h3>
-            <ul className="space-y-2">
+            <h3 className="mb-2 text-[12px]">{c.title}</h3>
+            <ul className="space-y-1.5">
               {c.links.map((l) => (
-                <li key={l}><Link to="/" className="text-[13px] font-light underline-offset-4 hover:underline">{l}</Link></li>
+                <li key={l}><Link to="/" className="text-[12px] font-light underline-offset-4 hover:underline">{l}</Link></li>
               ))}
             </ul>
           </div>
