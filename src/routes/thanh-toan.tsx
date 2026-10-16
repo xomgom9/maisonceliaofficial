@@ -67,7 +67,7 @@ function Checkout() {
         data: {
           customer_name: vals["name"]!.trim(),
           phone: vals["phone"]!.trim(),
-          email: vals["email"]?.trim(),
+          email: vals["email"]?.trim() ?? "",
           address: vals["address"]!.trim(),
           province: vals["city"]!.trim(),
           idempotency_key: idemKey,
