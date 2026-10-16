@@ -230,28 +230,56 @@ function AdminProducts() {
       )}
 
       {isLoading ? <p className="text-[14px]">Đang tải…</p> : (
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[700px] text-left text-[13px]">
-            <thead className="border-b text-[12px] uppercase text-muted-foreground">
-              <tr><th className="py-2">Ảnh</th><th>Tên</th><th>Giá</th><th>Tồn kho</th><th>Trạng thái</th><th /></tr>
-            </thead>
-            <tbody>
-              {products?.map((p) => {
-                const img = [...p.product_media].sort((a, b) => a.sort_order - b.sort_order)[0];
-                return (
-                  <tr key={p.id} className="border-b">
-                    <td className="py-2">{img && <img src={resolveMedia(img.storage_path)} alt="" className="h-14 w-10 object-cover" />}</td>
-                    <td className="font-bold">{p.name}<br /><span className="font-normal text-muted-foreground">{p.code}</span></td>
-                    <td>{formatVND(p.price)}</td>
-                    <td>{p.product_variants.reduce((s, v) => s + v.stock_on_hand, 0)}</td>
-                    <td>{STATUS[p.status]}</td>
-                    <td><button onClick={() => edit(p)} className="underline">Sửa</button></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <>
+          {selected.size > 0 && (
+            <div className="mb-3 flex flex-wrap items-end gap-3 border bg-muted p-3">
+              <p className="mb-1 text-[13px] font-bold uppercase">Đã chọn {selected.size}</p>
+              <label className="flex flex-col text-[12px]">Trạng thái
+                <select className={`${input} w-40`} value={bulkStatus} onChange={(e) => setBulkStatus(e.target.value)}>
+                  <option value="">— Giữ nguyên —</option>
+                  {(Object.keys(STATUS) as PStatus[]).map((s) => <option key={s} value={s}>{STATUS[s]}</option>)}
+                </select>
+              </label>
+              <label className="flex flex-col text-[12px]">Danh mục
+                <select className={`${input} w-48`} value={bulkCategory} onChange={(e) => setBulkCategory(e.target.value)}>
+                  <option value="">— Giữ nguyên —</option>
+                  {cats?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </label>
+              <label className="flex flex-col text-[12px]">Giá mới (₫)
+                <input type="number" min={0} className={`${input} w-36`} value={bulkPrice} onChange={(e) => setBulkPrice(e.target.value)} placeholder="Giữ nguyên" />
+              </label>
+              <button onClick={applyBulk} disabled={bulkBusy} className="h-10 bg-cart px-5 text-[13px] font-bold uppercase text-primary-foreground hover:bg-cart-hover disabled:opacity-60">Áp dụng</button>
+              <button onClick={bulkDelete} disabled={bulkBusy} className="h-10 border px-5 text-[13px] font-bold uppercase text-destructive hover:bg-destructive hover:text-destructive-foreground disabled:opacity-60">Xóa đã chọn</button>
+            </div>
+          )}
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[700px] text-left text-[13px]">
+              <thead className="border-b text-[12px] uppercase text-muted-foreground">
+                <tr>
+                  <th className="w-8 py-2"><input type="checkbox" aria-label="Chọn tất cả" checked={!!products && selected.size === products.length && products.length > 0} onChange={toggleAll} /></th>
+                  <th className="py-2">Ảnh</th><th>Tên</th><th>Giá</th><th>Tồn kho</th><th>Trạng thái</th><th />
+                </tr>
+              </thead>
+              <tbody>
+                {products?.map((p) => {
+                  const img = [...p.product_media].sort((a, b) => a.sort_order - b.sort_order)[0];
+                  return (
+                    <tr key={p.id} className="border-b">
+                      <td className="py-2"><input type="checkbox" aria-label={`Chọn ${p.name}`} checked={selected.has(p.id)} onChange={() => toggleRow(p.id)} /></td>
+                      <td className="py-2">{img && <img src={resolveMedia(img.storage_path)} alt="" className="h-14 w-10 object-cover" />}</td>
+                      <td className="font-bold">{p.name}<br /><span className="font-normal text-muted-foreground">{p.code}</span></td>
+                      <td>{formatVND(p.price)}</td>
+                      <td>{p.product_variants.reduce((s, v) => s + v.stock_on_hand, 0)}</td>
+                      <td>{STATUS[p.status]}</td>
+                      <td><button onClick={() => edit(p)} className="underline">Sửa</button></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );
