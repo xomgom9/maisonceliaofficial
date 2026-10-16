@@ -128,7 +128,7 @@ function AdminProducts() {
     setBulkBusy(true);
     try {
       const ids = [...selected];
-      const patch: Record<string, unknown> = {};
+      const patch: { status?: PStatus; published_at?: string; price?: number } = {};
       if (bulkStatus) { patch.status = bulkStatus; if (bulkStatus === "published") patch.published_at = new Date().toISOString(); }
       if (price !== null) patch.price = price;
       if (Object.keys(patch).length > 0) {
