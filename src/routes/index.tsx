@@ -46,9 +46,9 @@ function Hero() {
   return (
     <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
       <HeroReveal base={heroDesktop} reveal={heroReveal} />
-      <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:left-[5vw] lg:top-1/2 lg:w-[min(560px,42vw)] lg:-translate-y-1/2 lg:p-0">
+      <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:inset-y-0 lg:left-[5vw] lg:flex lg:w-[min(560px,42vw)] lg:flex-col lg:justify-center lg:p-0">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-foreground md:text-[12px]">CELIA — New Collection</p>
-        <h1 className="mt-4 text-[clamp(2.15rem,4.5vw+0.75rem,5rem)] uppercase leading-[1.02] tracking-[-0.01em]">
+        <h1 className="mt-4 text-[clamp(2.15rem,3.6vw+0.75rem,4.5rem)] uppercase leading-[1.02] tracking-[-0.01em]">
           Thanh lịch<br />theo cách riêng.
         </h1>
         <p className="mt-4 max-w-[420px] text-[15px] font-light leading-[1.6] text-foreground md:mt-6 md:text-[16px]">
