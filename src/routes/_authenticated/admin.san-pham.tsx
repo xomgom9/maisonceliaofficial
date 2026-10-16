@@ -129,7 +129,7 @@ function AdminProducts() {
     try {
       const ids = [...selected];
       const patch: { status?: PStatus; published_at?: string; price?: number } = {};
-      if (bulkStatus) { patch.status = bulkStatus; if (bulkStatus === "published") patch.published_at = new Date().toISOString(); }
+      if (bulkStatus) { patch.status = bulkStatus as PStatus; if (bulkStatus === "published") patch.published_at = new Date().toISOString(); }
       if (price !== null) patch.price = price;
       if (Object.keys(patch).length > 0) {
         const { error } = await supabase.from("products").update(patch).in("id", ids);
