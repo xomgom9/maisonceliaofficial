@@ -44,10 +44,10 @@ function AdminProducts() {
   function edit(p: NonNullable<typeof products>[number]) {
     const stock: Record<string, string> = { ...empty.stock };
     p.product_variants.forEach((v) => { stock[v.size] = String(v.stock_on_hand); });
-    const media = [...p.product_media].sort((a, b) => a.sort_order - b.sort_order)[0];
+    const media = [...p.product_media].sort((a, b) => a.sort_order - b.sort_order).map((m) => m.storage_path);
     setForm({
       id: p.id, name: p.name, code: p.code, slug: p.slug, price: String(p.price), compare: p.compare_at_price ? String(p.compare_at_price) : "",
-      status: p.status, categoryId: p.product_categories[0]?.category_id ?? "", image: media?.storage_path ?? "",
+      status: p.status, categoryId: p.product_categories[0]?.category_id ?? "", images: media.join("\n"),
       description: p.short_description ?? "", color: p.product_variants[0]?.color ?? "Mặc định", stock,
     });
   }
