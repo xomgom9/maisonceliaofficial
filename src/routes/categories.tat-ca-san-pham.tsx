@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { ProductGrid } from "@/components/site/ProductCard";
+import { ProductCarousel } from "@/components/site/ProductCarousel";
 import { catalogQuery, useCatalog } from "@/data/products";
 import { cn } from "@/lib/utils";
 
@@ -69,7 +69,7 @@ function AllProducts() {
         </div>
       </div>
       <p className="px-[11px] pb-4 pt-3 text-[12px] text-muted-foreground md:px-[15px]">{items.length} sản phẩm</p>
-      {items.length ? <ProductGrid items={items} /> : (
+      {items.length ? <ProductCarousel items={items} /> : (
         <div className="py-16 text-center text-[14px]">
           Không có sản phẩm phù hợp.{" "}
           <button className="underline" onClick={() => { setCat(""); setPrice("all"); }}>Xoá bộ lọc</button>
