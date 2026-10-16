@@ -19,6 +19,7 @@ import { Route as CategoriesTatCaSanPhamRouteImport } from './routes/categories.
 import { Route as SanPhamSlugRouteImport } from './routes/san-pham.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminDonHangRouteImport } from './routes/_authenticated/admin.don-hang'
+import { Route as AuthenticatedAdminSanPhamRouteImport } from './routes/_authenticated/admin.san-pham'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,12 @@ const AuthenticatedAdminDonHangRoute =
     path: '/don-hang',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminSanPhamRoute =
+  AuthenticatedAdminSanPhamRouteImport.update({
+    id: '/san-pham',
+    path: '/san-pham',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
   '/admin/don-hang': typeof AuthenticatedAdminDonHangRoute
+  '/admin/san-pham': typeof AuthenticatedAdminSanPhamRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
   '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
   '/admin/don-hang': typeof AuthenticatedAdminDonHangRoute
+  '/admin/san-pham': typeof AuthenticatedAdminSanPhamRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -103,6 +112,7 @@ export interface FileRoutesById {
   '/categories/tat-ca-san-pham': typeof CategoriesTatCaSanPhamRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
   '/_authenticated/admin/don-hang': typeof AuthenticatedAdminDonHangRoute
+  '/_authenticated/admin/san-pham': typeof AuthenticatedAdminSanPhamRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/categories/tat-ca-san-pham'
     | '/san-pham/$slug'
     | '/admin/don-hang'
+    | '/admin/san-pham'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '/categories/tat-ca-san-pham'
     | '/san-pham/$slug'
     | '/admin/don-hang'
+    | '/admin/san-pham'
     | '/admin'
   id:
     | '__root__'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
     | '/categories/tat-ca-san-pham'
     | '/san-pham/$slug'
     | '/_authenticated/admin/don-hang'
+    | '/_authenticated/admin/san-pham'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -223,16 +236,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDonHangRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/san-pham': {
+      id: '/_authenticated/admin/san-pham'
+      path: '/san-pham'
+      fullPath: '/admin/san-pham'
+      preLoaderRoute: typeof AuthenticatedAdminSanPhamRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminDonHangRoute: typeof AuthenticatedAdminDonHangRoute
+  AuthenticatedAdminSanPhamRoute: typeof AuthenticatedAdminSanPhamRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminDonHangRoute: AuthenticatedAdminDonHangRoute,
+  AuthenticatedAdminSanPhamRoute: AuthenticatedAdminSanPhamRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
