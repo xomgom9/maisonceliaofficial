@@ -16,7 +16,7 @@ export function Footer() {
     <footer className="mt-16 border-t bg-background px-[15px] pb-10 pt-12 lg:px-[60px]">
       <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr_1.4fr] lg:gap-10">
         <div className="col-span-2 md:col-span-1">
-          <BrandLogo className="text-[36px]" />
+          <BrandLogo variant="footer" />
           <p className="mt-3 text-[12px] font-light tracking-[0.12em]">FEMININE. CLASSIC. ELEGANT</p>
         </div>
         {COLS.map((c) => (

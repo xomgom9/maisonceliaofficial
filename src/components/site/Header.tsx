@@ -111,7 +111,7 @@ export function Header() {
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
         <SheetContent side="left" className="w-[86vw] max-w-[360px] p-0 [&>button]:hidden">
           <div className="flex h-[60px] items-center justify-between border-b px-4">
-            <SheetTitle asChild><span className="brand-logo text-[28px]">CELIA</span></SheetTitle>
+            <SheetTitle asChild><BrandLogo asLink={false} /></SheetTitle>
             <SheetDescription className="sr-only">Menu điều hướng</SheetDescription>
             <button onClick={() => setMenuOpen(false)} aria-label="Đóng menu" className="flex h-11 w-11 items-center justify-center"><X className="h-5 w-5" strokeWidth={1.25} /></button>
           </div>
