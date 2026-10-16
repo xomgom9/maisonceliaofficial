@@ -46,7 +46,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const i = c.findIndex((l) => l.productId === productId && l.size === size);
       if (i >= 0) {
         const n = [...c];
-        n[i] = { ...n[i], qty: Math.min(max, n[i].qty + qty) };
+        const cur = n[i]!;
+        n[i] = { ...cur, qty: Math.min(max, cur.qty + qty) };
         return n;
       }
       return [...c, { productId, size, qty: Math.min(max, qty) }];

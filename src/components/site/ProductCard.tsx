@@ -29,7 +29,7 @@ export function ProductCard({ product, eager }: { product: Product; eager?: bool
     <article className="group">
       <div className="relative aspect-[2/3] overflow-hidden bg-placeholder">
         <Link to="/san-pham/$slug" params={{ slug: product.slug }} aria-label={product.name} className="absolute inset-0">
-          <ProductImage src={product.images[0]} alt={product.name} eager={eager} className={hasAlt ? "group-hover:!opacity-0 duration-[220ms]" : undefined} />
+          <ProductImage src={product.images[0] ?? ""} alt={product.name} eager={eager} className={hasAlt ? "group-hover:!opacity-0 duration-[220ms]" : undefined} />
           {hasAlt && (
             <img src={product.images[1]} alt="" aria-hidden loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-[220ms] ease-celia group-hover:opacity-100" />
           )}
