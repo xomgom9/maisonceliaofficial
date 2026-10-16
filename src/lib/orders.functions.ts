@@ -38,8 +38,8 @@ const formatVND = (n: number) => n.toLocaleString("vi-VN") + " ₫";
 async function notifyTelegram(order: PlaceOrderResult, customerName: string) {
   const lovKey = process.env["LOVABLE_API_KEY"];
   const tgKey = process.env["TELEGRAM_API_KEY"];
-  const chatId = process.env["TELEGRAM_CHAT_ID"];
-  if (!lovKey || !tgKey || !chatId) return;
+  // Fallback: owner's verified personal chat ID (secret update form was skipped).
+  const chatId = process.env["TELEGRAM_CHAT_ID"] ?? "1678508533";
   try {
     const text = [
       "🛍️ <b>Đơn hàng mới — CELIA</b>",
