@@ -101,7 +101,7 @@ function ProductPage() {
       <div className="mx-auto grid max-w-[1350px] gap-8 pt-5 md:grid-cols-[minmax(0,478fr)_minmax(0,638fr)] md:gap-[7.5%] md:px-[7%]">
         <div className="flex snap-x snap-mandatory gap-1 overflow-x-auto md:flex-col md:gap-2 md:overflow-visible">
           {imgs.map((src, i) => (
-            <button key={i} onClick={() => setLightbox(i)} aria-label={`Xem ảnh ${i + 1}`} className="relative aspect-[2/3] w-full shrink-0 snap-center bg-placeholder">
+            <button key={i} onClick={() => setLightbox(i)} aria-label={`Xem ảnh ${i + 1}`} className="img-soft relative aspect-[2/3] w-full shrink-0 snap-center overflow-hidden bg-placeholder">
               <img src={src} alt={`${product.name} ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} className="absolute inset-0 h-full w-full object-cover" />
             </button>
           ))}

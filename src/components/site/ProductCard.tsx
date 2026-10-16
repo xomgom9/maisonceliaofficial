@@ -27,7 +27,7 @@ export function ProductCard({ product, eager }: { product: Product; eager?: bool
   const hasAlt = product.images.length > 1;
   return (
     <article className="group">
-      <div className="relative aspect-[2/3] overflow-hidden bg-placeholder">
+      <div className="img-soft relative aspect-[2/3] overflow-hidden bg-placeholder">
         <Link to="/san-pham/$slug" params={{ slug: product.slug }} aria-label={product.name} className="absolute inset-0">
           <ProductImage src={product.images[0] ?? ""} alt={product.name} eager={eager} className={hasAlt ? "group-hover:!opacity-0 duration-[220ms]" : undefined} />
           {hasAlt && (

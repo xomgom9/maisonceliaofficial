@@ -136,7 +136,7 @@ function Checkout() {
           </button>
           {notice && <p role="alert" className="border border-sale p-3 text-[13px] text-sale">{notice}</p>}
         </form>
-        <aside className="h-fit border p-5">
+        <aside className="card-soft h-fit border p-5">
           <h2 className="mb-4 text-[16px]">Tóm tắt đơn hàng</h2>
           {!cart.length ? (
             <p className="text-[13px]">Giỏ hàng trống. <Link to="/categories/tat-ca-san-pham" className="underline">Tiếp tục mua sắm</Link></p>
