@@ -37,10 +37,12 @@ function Checkout() {
     e.preventDefault();
     const n: Record<string, string> = {};
     FIELDS.forEach((f) => { if (!vals[f.id]?.trim()) n[f.id] = `Vui lòng nhập ${f.label.toLowerCase()}.`; });
-    if (vals.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(vals.email)) n.email = "Email không hợp lệ.";
-    if (vals.phone && !/^[0-9+\s]{9,13}$/.test(vals.phone)) n.phone = "Số điện thoại không hợp lệ.";
+    const email = vals["email"], phone = vals["phone"];
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) n["email"] = "Email không hợp lệ.";
+    if (phone && !/^[0-9+\s]{9,13}$/.test(phone)) n["phone"] = "Số điện thoại không hợp lệ.";
     setErrs(n);
-    if (Object.keys(n).length) { document.getElementById(Object.keys(n)[0])?.focus(); setNotice(""); return; }
+    const first = Object.keys(n)[0];
+    if (first) { document.getElementById(first)?.focus(); setNotice(""); return; }
     setNotice("Đây là bản demo: thông tin hợp lệ nhưng đơn hàng chưa được ghi nhận vì chưa kết nối hệ thống đặt hàng.");
   };
 
