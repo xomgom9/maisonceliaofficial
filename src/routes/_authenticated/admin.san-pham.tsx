@@ -113,6 +113,73 @@ function AdminProducts() {
     }
   }
 
+  function toggleRow(id: string) {
+    setSelected((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  }
+  function toggleAll() {
+    setSelected((s) => (products && s.size === products.length ? new Set<string>() : new Set(products?.map((p) => p.id) ?? [])));
+  }
+
+  async function applyBulk() {
+    if (!selected.size || bulkBusy) return;
+    const price = bulkPrice.trim() ? Number(bulkPrice) : null;
+    if (bulkPrice.trim() && !(price! > 0)) { toast.error("Giá không hợp lệ."); return; }
+    if (!bulkStatus && !bulkCategory && price === null) { toast.error("Chọn ít nhất một thay đổi để áp dụng."); return; }
+    setBulkBusy(true);
+    try {
+      const ids = [...selected];
+      const patch: Record<string, unknown> = {};
+      if (bulkStatus) { patch.status = bulkStatus; if (bulkStatus === "published") patch.published_at = new Date().toISOString(); }
+      if (price !== null) patch.price = price;
+      if (Object.keys(patch).length > 0) {
+        const { error } = await supabase.from("products").update(patch).in("id", ids);
+        if (error) throw error;
+      }
+      if (bulkCategory) {
+        const { data: existing, error: e1 } = await supabase.from("product_categories").select("product_id, category_id").in("product_id", ids);
+        if (e1) throw e1;
+        const stale = [...new Set((existing ?? []).filter((e) => e.category_id !== bulkCategory).map((e) => e.product_id))];
+        if (stale.length > 0) {
+          const { error } = await supabase.from("product_categories").delete().in("product_id", stale);
+          if (error) throw error;
+        }
+        const toInsert = ids.filter((id) => !existing?.some((e) => e.product_id === id && e.category_id === bulkCategory))
+          .map((id) => ({ product_id: id, category_id: bulkCategory }));
+        if (toInsert.length > 0) {
+          const { error } = await supabase.from("product_categories").insert(toInsert);
+          if (error) throw error;
+        }
+      }
+      toast.success(`Đã cập nhật ${ids.length} sản phẩm.`);
+      setSelected(new Set());
+      setBulkStatus(""); setBulkCategory(""); setBulkPrice("");
+      qc.invalidateQueries({ queryKey: ["admin-products"] });
+      qc.invalidateQueries({ queryKey: ["catalog"] });
+    } catch (err) {
+      toast.error("Không cập nhật được: " + (err as { message?: string }).message);
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
+  async function bulkDelete() {
+    if (!selected.size || bulkBusy) return;
+    if (!window.confirm(`Xóa vĩnh viễn ${selected.size} sản phẩm đã chọn? Thao tác này không thể hoàn tác.`)) return;
+    setBulkBusy(true);
+    try {
+      const { error } = await supabase.from("products").delete().in("id", [...selected]);
+      if (error) throw error;
+      toast.success(`Đã xóa ${selected.size} sản phẩm.`);
+      setSelected(new Set());
+      qc.invalidateQueries({ queryKey: ["admin-products"] });
+      qc.invalidateQueries({ queryKey: ["catalog"] });
+    } catch (err) {
+      toast.error("Không xóa được: " + (err as { message?: string }).message);
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
   const input = "h-10 w-full border px-3 text-[14px] font-normal outline-none focus:border-foreground";
   const set = (k: keyof Form, v: string) => setForm((f) => (f ? { ...f, [k]: v } : f));
 
