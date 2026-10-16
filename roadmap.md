@@ -4,3 +4,6 @@
 - [x] Shop filters: price range + category + sort
 - [x] Admin: sign-in, products (create/edit/publish), orders (list/status)
 - [ ] Admin photo upload from computer (needs private storage + signed URLs; currently image link)
+- [x] Remove "Xem và thử tại cửa hàng" (online-only store)
+- [ ] Hero: remove hover/reveal effects, convert to auto slideshow
+- [ ] Update memory: UI font now luxury serif (Cormorant Garamond)
