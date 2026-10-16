@@ -3,6 +3,8 @@
 - [x] Hero banner hover effects
 - [x] Shop filters: price range + category + sort
 - [x] Admin: sign-in, products (create/edit/publish), orders (list/status)
+- [x] Admin photo upload via Google Drive links (multiple links per product)
+- [ ] Admin bulk actions: select multiple products, bulk edit (status/category/price), bulk delete
 - [ ] Admin photo upload from computer (needs private storage + signed URLs; currently image link)
 - [x] Remove "Xem và thử tại cửa hàng" (online-only store)
 - [x] Hero: remove hover/reveal effects, convert to auto slideshow
