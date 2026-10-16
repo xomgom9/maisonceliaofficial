@@ -29,7 +29,7 @@
 }
 
 @theme inline {
-  --font-sans: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Roboto Condensed", "Arial Narrow", Helvetica, Arial, sans-serif;
   --font-brand: "Bromle", serif;
   --ease-celia: cubic-bezier(0.2, 0, 0, 1);
   --radius-sm: 2px;
