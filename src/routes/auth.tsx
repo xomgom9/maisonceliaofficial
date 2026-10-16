@@ -46,7 +46,7 @@ function AuthPage() {
       <h1 className="text-[22px] uppercase tracking-[0.04em]">{mode === "in" ? "Đăng nhập quản trị" : "Tạo tài khoản"}</h1>
       <form onSubmit={submit} className="mt-6 space-y-3">
         <label className="block text-[13px]">Email<input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={input} /></label>
-        <label className="block text-[13px]">Mật khẩu<input type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className={input} /></label>
+        <label className="block text-[13px]">Mật khẩu<input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className={input} /></label>
         <button disabled={busy} className="h-11 w-full bg-cart text-[13px] font-bold uppercase text-primary-foreground hover:bg-cart-hover disabled:opacity-60">
           {busy ? "Đang xử lý…" : mode === "in" ? "Đăng nhập" : "Đăng ký"}
         </button>
