@@ -3,7 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { ProductCard } from "@/components/site/ProductCard";
 import { catalogQuery, useCatalog, type Product } from "@/data/products";
 import heroDesktop from "@/assets/hero-desktop.webp";
-import heroDesktop1280 from "@/assets/hero-desktop-1280.webp";
+import heroReveal from "@/assets/hero-reveal.webp";
+import { HeroReveal } from "@/components/site/HeroReveal";
 import heroMobile from "@/assets/hero-mobile.webp";
 import spotlight from "@/assets/spotlight.webp";
 
@@ -43,28 +44,17 @@ function Grid4({ items }: { items: Product[] }) {
 
 function Hero() {
   return (
-    <section aria-label="Bộ sưu tập mới" className="relative h-[76svh] max-h-[880px] min-h-[520px] w-full overflow-hidden bg-placeholder md:h-[82svh]">
-      <picture>
-        <source media="(min-width: 768px)" srcSet={`${heroDesktop1280} 1280w, ${heroDesktop} 1920w`} sizes="100vw" />
-        <img
-          src={heroMobile}
-          alt="Người mẫu mặc váy midi màu kem trong không gian kiến trúc đá sáng"
-          width={720}
-          height={1280}
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-[50%_0%] md:object-[60%_35%]"
-        />
-      </picture>
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-background/75 via-background/40 to-transparent md:hidden" />
-      <div className="hero-copy absolute inset-x-0 bottom-[8%] px-5 sm:px-6 md:bottom-auto md:left-[6vw] md:right-auto md:top-1/2 md:w-[min(540px,42vw)] md:-translate-y-1/2 md:px-0">
-        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-foreground md:text-[12px]">CELIA — New Collection</p>
-        <h1 className="mt-3 text-[36px] uppercase leading-[1.1] tracking-[-0.01em] md:mt-4 md:text-[clamp(44px,4.2vw,68px)]">
+    <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:h-[86svh] lg:max-h-[900px] lg:min-h-[600px]">
+      <HeroReveal base={heroDesktop} reveal={heroReveal} />
+      <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:left-[5vw] lg:top-1/2 lg:w-[min(560px,42vw)] lg:-translate-y-1/2 lg:p-0">
+        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-foreground md:text-[12px]">CELIA — New Collection</p>
+        <h1 className="mt-4 text-[clamp(2.15rem,4.5vw+0.75rem,5rem)] uppercase leading-[1.02] tracking-[-0.01em]">
           Thanh lịch<br />theo cách riêng.
         </h1>
-        <p className="mt-3 max-w-[420px] text-[15px] font-light leading-[1.6] text-foreground md:mt-5 md:text-[16px]">
+        <p className="mt-4 max-w-[420px] text-[15px] font-light leading-[1.6] text-foreground md:mt-6 md:text-[16px]">
           Khám phá những thiết kế tôn dáng, tinh tế trong từng chi tiết.
         </p>
-        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 md:mt-8">
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 md:mt-8">
           <Link
             to="/categories/tat-ca-san-pham"
             className="group inline-flex h-[50px] items-center gap-2 bg-cart px-7 text-[13px] font-bold uppercase tracking-[0.06em] text-primary-foreground transition-colors duration-150 hover:bg-cart-hover"
@@ -76,6 +66,9 @@ function Hero() {
             Xem tất cả sản phẩm →
           </Link>
         </div>
+      </div>
+      <div className="relative mx-5 mt-8 aspect-[4/5] overflow-hidden border border-border bg-placeholder sm:mx-6 sm:aspect-[16/9] lg:hidden">
+        <img src={heroMobile} alt="Người mẫu mặc váy midi trong không gian kiến trúc trắng" width={720} height={1280} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[50%_15%]" />
       </div>
     </section>
   );
