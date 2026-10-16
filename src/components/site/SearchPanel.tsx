@@ -2,15 +2,16 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { formatVND, products } from "@/data/products";
+import { formatVND, useCatalogSafe } from "@/data/products";
 
 export function SearchPanel({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
+  const products = useCatalogSafe();
   const results = useMemo(() => {
     const t = q.trim().toLowerCase();
     return t ? products.filter((p) => p.name.toLowerCase().includes(t)) : [];
-  }, [q]);
+  }, [q, products]);
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="top" className="max-h-[80vh] overflow-y-auto p-0 [&>button]:hidden">

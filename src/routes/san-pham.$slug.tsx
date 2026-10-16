@@ -5,13 +5,14 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ProductGrid } from "@/components/site/ProductCard";
-import { formatVND, getProduct, products, SIZES, type Size } from "@/data/products";
+import { catalogQuery, formatVND, SIZES, useCatalog, type Size } from "@/data/products";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/san-pham/$slug")({
-  loader: ({ params }) => {
-    const p = getProduct(params.slug);
+  loader: async ({ params, context }) => {
+    const all = await context.queryClient.ensureQueryData(catalogQuery);
+    const p = all.find((x) => x.slug === params.slug);
     if (!p) throw notFound();
     return { name: p.name, description: p.description };
   },
@@ -50,7 +51,8 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
 
 function ProductPage() {
   const { slug } = Route.useParams();
-  const product = getProduct(slug)!;
+  const products = useCatalog();
+  const product = products.find((p) => p.slug === slug)!;
   const { addToCart, setCartOpen } = useStore();
   const navigate = useNavigate();
   const [size, setSize] = useState<Size | null>(null);
@@ -152,8 +154,8 @@ function ProductPage() {
           <DialogTitle className="sr-only">{product.name}</DialogTitle>
           <DialogDescription className="sr-only">Thư viện ảnh</DialogDescription>
           {lightbox !== null && (
-            <div className="relative" onTouchStart={(e) => (touchX.current = e.touches[0].clientX)} onTouchEnd={(e) => {
-              const dx = e.changedTouches[0].clientX - touchX.current;
+            <div className="relative" onTouchStart={(e) => (touchX.current = e.touches[0]?.clientX ?? 0)} onTouchEnd={(e) => {
+              const dx = (e.changedTouches[0]?.clientX ?? 0) - touchX.current;
               if (Math.abs(dx) > 40) setLightbox((i) => (((i ?? 0) + (dx < 0 ? 1 : -1)) + imgs.length) % imgs.length);
             }}>
               <img src={imgs[lightbox]} alt={product.name} className="max-h-[86vh] w-full object-contain" />

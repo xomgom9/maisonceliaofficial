@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { formatVND, products } from "@/data/products";
+import { formatVND, useCatalogSafe } from "@/data/products";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/thanh-toan")({
@@ -29,6 +29,7 @@ const FIELDS = [
 
 function Checkout() {
   const { cart, subtotal } = useStore();
+  const products = useCatalogSafe();
   const [vals, setVals] = useState<Record<string, string>>({});
   const [errs, setErrs] = useState<Record<string, string>>({});
   const [notice, setNotice] = useState("");
@@ -86,7 +87,8 @@ function Checkout() {
           ) : (
             <ul className="space-y-3">
               {cart.map((l) => {
-                const p = products.find((x) => x.id === l.productId)!;
+                const p = products.find((x) => x.id === l.productId);
+                if (!p) return null;
                 return (
                   <li key={l.productId + l.size} className="flex gap-3 text-[13px]">
                     <img src={p.images[0]} alt="" className="h-[72px] w-12 object-cover" />
