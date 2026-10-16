@@ -86,11 +86,15 @@ function AdminProducts() {
       // category
       await supabase.from("product_categories").delete().eq("product_id", id);
       if (form.categoryId) await supabase.from("product_categories").insert({ product_id: id, category_id: form.categoryId });
-      // cover image
-      if (form.image.trim()) {
-        const { data: m } = await supabase.from("product_media").select("id").eq("product_id", id).eq("sort_order", 0).maybeSingle();
-        if (m) await supabase.from("product_media").update({ storage_path: form.image.trim() }).eq("id", m.id);
-        else await supabase.from("product_media").insert({ product_id: id, storage_path: form.image.trim(), alt: row.name, sort_order: 0, is_cover: true });
+      // media: replace the whole gallery with the pasted links (first = cover)
+      const links = parseImageLinks(form.images);
+      const { error: mediaErr } = await supabase.from("product_media").delete().eq("product_id", id);
+      if (mediaErr) throw mediaErr;
+      if (links.length > 0) {
+        const { error: insErr } = await supabase.from("product_media").insert(
+          links.map((path, i) => ({ product_id: id, storage_path: path, alt: row.name, sort_order: i, is_cover: i === 0 })),
+        );
+        if (insErr) throw insErr;
       }
       toast.success("Đã lưu sản phẩm.");
       setForm(null);
