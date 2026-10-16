@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { ProductCard } from "@/components/site/ProductCard";
 import { catalogQuery, useCatalog, type Product } from "@/data/products";
 import heroDesktop from "@/assets/hero-desktop.webp";
 import heroReveal from "@/assets/hero-reveal.webp";
-import { HeroReveal } from "@/components/site/HeroReveal";
 import heroMobile from "@/assets/hero-mobile.webp";
 import spotlight from "@/assets/spotlight.webp";
 
