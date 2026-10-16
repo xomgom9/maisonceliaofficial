@@ -27,7 +27,7 @@ function Orders() {
 
   async function setStatus(id: string, status: Status) {
     const { error } = await supabase.from("orders").update({ status }).eq("id", id);
-    if (error) return toast.error("Không cập nhật được trạng thái.");
+    if (error) { toast.error("Không cập nhật được trạng thái."); return; }
     toast.success("Đã cập nhật trạng thái.");
     qc.invalidateQueries({ queryKey: ["admin-orders"] });
   }

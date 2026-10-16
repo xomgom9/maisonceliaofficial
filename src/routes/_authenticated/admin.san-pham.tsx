@@ -52,7 +52,7 @@ function AdminProducts() {
     e.preventDefault();
     if (!form) return;
     const price = Number(form.price);
-    if (!form.name.trim() || !form.code.trim() || !(price > 0)) return toast.error("Cần nhập tên, mã và giá hợp lệ.");
+    if (!form.name.trim() || !form.code.trim() || !(price > 0)) { toast.error("Cần nhập tên, mã và giá hợp lệ."); return; }
     setSaving(true);
     try {
       const row = {
