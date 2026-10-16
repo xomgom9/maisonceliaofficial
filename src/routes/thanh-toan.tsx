@@ -29,7 +29,7 @@ const FIELDS = [
 ] as const;
 
 function Checkout() {
-  const { cart, subtotal, setQty } = useStore();
+  const { cart, subtotal, clearCart } = useStore();
   const products = useCatalogSafe();
   const [vals, setVals] = useState<Record<string, string>>({});
   const [errs, setErrs] = useState<Record<string, string>>({});

@@ -71,8 +71,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const value = useMemo<Store>(() => {
     const cartCount = cart.reduce((a, l) => a + l.qty, 0);
     const subtotal = cart.reduce((a, l) => a + l.qty * (products.find((p) => p.id === l.productId)?.price ?? 0), 0);
-    return { cart, wishlist, cartOpen, setCartOpen, addToCart, setQty, removeLine, toggleWish, isWished: (id) => wishlist.includes(id), cartCount, subtotal };
-  }, [cart, wishlist, cartOpen, addToCart, setQty, removeLine, toggleWish, products]);
+    return { cart, wishlist, cartOpen, setCartOpen, addToCart, setQty, removeLine, clearCart, toggleWish, isWished: (id) => wishlist.includes(id), cartCount, subtotal };
+  }, [cart, wishlist, cartOpen, addToCart, setQty, removeLine, clearCart, toggleWish, products]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
