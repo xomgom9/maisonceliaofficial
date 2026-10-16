@@ -129,7 +129,7 @@ function AdminProducts() {
             </select>
           </label>
           <label className="text-[13px]">Màu<input className={input} value={form.color} onChange={(e) => set("color", e.target.value)} /></label>
-          <label className="text-[13px] md:col-span-2">Link ảnh (https://…)<input className={input} value={form.image} onChange={(e) => set("image", e.target.value)} placeholder="https://..." /></label>
+          <label className="text-[13px] md:col-span-2">Link ảnh (https://… hoặc link chia sẻ Google Drive)<input className={input} value={form.image} onChange={(e) => set("image", e.target.value)} placeholder="https://drive.google.com/file/d/…/view" /></label>
           <label className="text-[13px] md:col-span-2">Mô tả ngắn<textarea rows={3} className="w-full border p-3 text-[14px] font-normal outline-none focus:border-foreground" value={form.description} onChange={(e) => set("description", e.target.value)} /></label>
           <div className="md:col-span-2">
             <p className="text-[13px]">Tồn kho theo size</p>
