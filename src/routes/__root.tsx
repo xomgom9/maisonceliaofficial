@@ -16,6 +16,7 @@ import { StoreProvider } from "@/lib/store";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { CartDrawer } from "@/components/site/CartDrawer";
+import { MotionProvider } from "@/components/site/MotionProvider";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -131,6 +132,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <StoreProvider>
+        <MotionProvider>
         <Header />
         <main>
           <Outlet />
@@ -138,6 +140,7 @@ function RootComponent() {
         <Footer />
         <CartDrawer />
         <Toaster position="top-center" toastOptions={{ style: { borderRadius: 2, fontFamily: "'Roboto Condensed', Arial Narrow, sans-serif" } }} />
+      </MotionProvider>
       </StoreProvider>
     </QueryClientProvider>
   );
