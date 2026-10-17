@@ -28,7 +28,7 @@ export function MotionProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem("celia-motion", value); } catch { /* Keep this session's choice. */ }
   };
   useEffect(() => {
-    document.documentElement.dataset.motion = mode;
+    document.documentElement.dataset['motion'] = mode;
     if (!ready || mode === "off" || !("IntersectionObserver" in window)) return;
     const main = document.querySelector("main");
     if (!main) return;

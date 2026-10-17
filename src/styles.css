@@ -170,6 +170,8 @@ html[data-motion="light"] .hero-copy,
 html[data-motion="off"] .hero-copy { animation: none; }
 html[data-motion="off"] main *,
 html[data-motion="off"] header * { animation: none !important; transition: none !important; }
+html[data-motion="off"] [data-product-card] a img:first-child { opacity: 1 !important; }
+html[data-motion="off"] [data-product-card] a img:nth-child(2) { opacity: 0 !important; }
 @media (prefers-reduced-motion: reduce) {
   [data-motion-reveal] { opacity: 1 !important; translate: none !important; }
   main .img-soft, main img, main a svg { transform: none !important; translate: none !important; }
