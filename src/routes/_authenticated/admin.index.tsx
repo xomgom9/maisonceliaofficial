@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatVND } from "@/data/products";
 
-export const Route = createFileRoute("/_authenticated/admin/")({ component: Dashboard });
+export const Route = createFileRoute("/_authenticated/admin/")({ head: () => ({ meta: [{ title: "Tổng quan quản trị — CELIA" }, { name: "description", content: "Tổng quan sản phẩm và đơn hàng CELIA." }, { property: "og:title", content: "Tổng quan quản trị — CELIA" }, { property: "og:description", content: "Tổng quan sản phẩm và đơn hàng CELIA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }), component: Dashboard });
 
 function Dashboard() {
   const { data } = useQuery({

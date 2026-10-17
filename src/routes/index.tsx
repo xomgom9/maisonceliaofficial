@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { useMotion } from "@/components/site/MotionProvider";
 import { ProductCarousel } from "@/components/site/ProductCarousel";
 import { catalogQuery, useCatalog, type Product } from "@/data/products";
 import heroDesktop from "@/assets/hero-desktop.webp";
@@ -52,10 +53,12 @@ const SLIDE_MS = 5000;
 
 function HeroSlides({ slides, className }: { slides: { src: string; alt: string }[]; className?: string }) {
   const [index, setIndex] = useState(0);
+  const { mode } = useMotion();
   useEffect(() => {
+    if (mode !== "full") return;
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), SLIDE_MS);
     return () => clearInterval(t);
-  }, [slides.length]);
+  }, [slides.length, mode]);
   return (
     <div className={className}>
       {slides.map((s, i) => (
@@ -84,7 +87,7 @@ function HeroSlides({ slides, className }: { slides: { src: string; alt: string 
 
 function Hero() {
   return (
-    <section aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:aspect-[4/3]">
+    <section data-motion-static aria-label="Bộ sưu tập mới" className="relative w-full overflow-hidden bg-background lg:aspect-[4/3]">
       <HeroSlides slides={HERO_SLIDES_DESKTOP} className="absolute inset-0 hidden lg:block" />
       <div className="hero-copy relative z-10 px-5 pt-10 sm:px-6 lg:absolute lg:inset-y-0 lg:left-[5vw] lg:flex lg:w-[min(560px,42vw)] lg:flex-col lg:justify-center lg:p-0">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-foreground md:text-[12px]">CELIA — New Collection</p>

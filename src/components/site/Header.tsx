@@ -7,6 +7,7 @@ import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "./BrandLogo";
 import { SearchPanel } from "./SearchPanel";
+import { MotionSettings } from "./MotionSettings";
 
 type MenuItem = { label: string; sale?: boolean; children?: string[] };
 const MENU: MenuItem[] = [
@@ -96,6 +97,7 @@ export function Header() {
           </div>
           <BrandLogo />
           <div className="flex items-center justify-end">
+            <MotionSettings />
             <span className="hidden md:contents">
               <IconBtn label="Tài khoản" to="/admin"><User className={ic} strokeWidth={1.25} /></IconBtn>
               <IconBtn label="Yêu thích" to="/yeu-thich" badge={wishlist.length}><Heart className={ic} strokeWidth={1.25} /></IconBtn>

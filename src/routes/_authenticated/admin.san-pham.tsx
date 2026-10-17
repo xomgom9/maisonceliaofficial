@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatVND, resolveMedia, SIZES } from "@/data/products";
 
-export const Route = createFileRoute("/_authenticated/admin/san-pham")({ component: AdminProducts });
+export const Route = createFileRoute("/_authenticated/admin/san-pham")({ head: () => ({ meta: [{ title: "Quản lý sản phẩm — CELIA" }, { name: "description", content: "Quản lý danh mục và sản phẩm CELIA." }, { property: "og:title", content: "Quản lý sản phẩm — CELIA" }, { property: "og:description", content: "Quản lý danh mục và sản phẩm CELIA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }), component: AdminProducts });
 
 type PStatus = Database["public"]["Enums"]["product_status"];
 const STATUS: Record<PStatus, string> = { draft: "Nháp", published: "Đang bán", archived: "Lưu trữ" };
