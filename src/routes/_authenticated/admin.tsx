@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Quản trị — CELIA" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Quản trị — CELIA" }, { name: "description", content: "Khu vực quản trị cửa hàng CELIA." }, { property: "og:title", content: "Quản trị — CELIA" }, { property: "og:description", content: "Khu vực quản trị cửa hàng CELIA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: AdminLayout,
 });
 

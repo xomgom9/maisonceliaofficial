@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatVND } from "@/data/products";
 
-export const Route = createFileRoute("/_authenticated/admin/don-hang")({ component: Orders });
+export const Route = createFileRoute("/_authenticated/admin/don-hang")({ head: () => ({ meta: [{ title: "Quản lý đơn hàng — CELIA" }, { name: "description", content: "Quản lý và cập nhật đơn hàng CELIA." }, { property: "og:title", content: "Quản lý đơn hàng — CELIA" }, { property: "og:description", content: "Quản lý và cập nhật đơn hàng CELIA." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }), component: Orders });
 
 type Status = Database["public"]["Enums"]["order_status"];
 const STATUS: Record<Status, string> = { new: "Mới", confirmed: "Đã xác nhận", packing: "Đang đóng gói", shipped: "Đang giao", completed: "Hoàn thành", cancelled: "Đã huỷ" };
