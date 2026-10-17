@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Subtle pointer/text scroll effects with device-aware motion settings and verification
 - [x] Hero: futuristic cursor reveal + grid (desktop), static image mobile
 - [x] Hero banner hover effects
 - [x] Shop filters: price range + category + sort
