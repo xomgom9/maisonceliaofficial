@@ -10,7 +10,7 @@ export function ProductGallery({ images, name, wished, onWish, onZoom }: {
   const [touchX, setTouchX] = useState(0);
   const change = (step: number) => setActive((current) => (current + step + images.length) % images.length);
   return (
-    <div className="grid min-w-0 gap-3 md:grid-cols-[68px_minmax(0,1fr)] lg:grid-cols-[80px_minmax(0,1fr)]" data-motion-static>
+    <div className="grid min-w-0 items-start gap-3 md:grid-cols-[68px_minmax(0,1fr)] lg:grid-cols-[80px_minmax(0,1fr)]" data-motion-static>
       <div className="order-2 flex gap-2 overflow-x-auto md:order-1 md:max-h-[640px] md:flex-col md:overflow-y-auto" aria-label="Ảnh sản phẩm">
         {images.map((src, index) => (
           <Button key={`${src}-${index}`} variant="ghost" onClick={() => setActive(index)} aria-label={`Chọn ảnh ${index + 1}`} aria-pressed={active === index}
