@@ -1,12 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { useMotion } from "@/components/site/MotionProvider";
 import { ProductCarousel } from "@/components/site/ProductCarousel";
 import { catalogQuery, useCatalog, type Product } from "@/data/products";
-import heroDesktop from "@/assets/hero-desktop.webp";
-import heroReveal from "@/assets/hero-reveal.webp";
-import heroMobile from "@/assets/hero-mobile.webp";
+import bannerLeclosion from "@/assets/banner-leclosion.jpg.asset.json";
 import spotlight from "@/assets/spotlight.webp";
 
 export const Route = createFileRoute("/")({
