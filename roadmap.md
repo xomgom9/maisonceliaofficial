@@ -1,5 +1,5 @@
 # Roadmap
-- [ ] Match homepage product cards and product detail layout to supplied references; verify gallery, sizes, quantity and cart
+- [x] Match homepage product cards and product detail layout to supplied references; verify gallery, sizes, quantity and cart
 - [x] Subtle pointer/text scroll effects with device-aware motion settings and verification
 - [x] Hero: futuristic cursor reveal + grid (desktop), static image mobile
 - [x] Hero banner hover effects
