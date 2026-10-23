@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Minus, Plus, Ruler, ShoppingBag, ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ProductGallery } from "@/components/site/ProductGallery";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ProductGrid } from "@/components/site/ProductCard";
 import { catalogQuery, formatVND, SIZES, useCatalog, type Size } from "@/data/products";
@@ -38,10 +40,10 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
   const [open, setOpen] = useState(false);
   return (
     <div className="border-b">
-      <button aria-expanded={open} onClick={() => setOpen(!open)} className="flex h-12 w-full items-center justify-between text-left text-[14px] font-bold text-foreground">
+      <Button variant="ghost" aria-expanded={open} onClick={() => setOpen(!open)} className="flex h-12 w-full items-center justify-between rounded-none px-0 text-left text-[14px] font-bold text-foreground">
         {title}
         <ChevronDown className={cn("h-4 w-4 transition-transform duration-200 ease-celia", open && "rotate-180")} strokeWidth={1.5} />
-      </button>
+      </Button>
       <div className={cn("grid transition-[grid-template-rows] duration-200 ease-celia", open ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
         <div className="overflow-hidden"><div className="pb-4 text-[14px] font-light leading-relaxed">{children}</div></div>
       </div>
@@ -52,19 +54,20 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
 function ProductPage() {
   const { slug } = Route.useParams();
   const products = useCatalog();
-  const product = products.find((p) => p.slug === slug)!;
-  const { addToCart, setCartOpen } = useStore();
+  const product = products.find((p) => p.slug === slug);
+  const { addToCart, setCartOpen, isWished, toggleWish } = useStore();
   const navigate = useNavigate();
   const [size, setSize] = useState<Size | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [sizeChart, setSizeChart] = useState(false);
   const sizeRef = useRef<HTMLDivElement>(null);
   const touchX = useRef(0);
-  const imgs = product.images;
+  const imgs = product?.images ?? [];
 
-  useEffect(() => { setSize(null); setErr(""); }, [slug]);
+  useEffect(() => { setSize(null); setQuantity(1); setErr(""); }, [slug]);
   useEffect(() => {
     if (lightbox === null) return;
     const k = (e: KeyboardEvent) => {
@@ -75,21 +78,24 @@ function ProductPage() {
     return () => window.removeEventListener("keydown", k);
   }, [lightbox, imgs.length]);
 
+  if (!product) return <p className="py-20 text-center">Không tìm thấy sản phẩm.</p>;
+  const available = size ? product.stock[size] : 0;
+
   const ensureSize = () => {
     if (!size) { setErr("Vui lòng chọn kích cỡ."); sizeRef.current?.querySelector<HTMLButtonElement>("button:not(:disabled)")?.focus(); return false; }
     return true;
   };
   const onAdd = () => {
-    if (!ensureSize() || busy) return;
+    if (!ensureSize() || !size || busy) return;
     setBusy(true);
-    addToCart(product.id, size!);
+    addToCart(product.id, size, quantity);
     toast(`Đã thêm ${product.name} (size ${size}) vào giỏ hàng.`);
     setCartOpen(true);
     setBusy(false);
   };
   const onBuy = () => {
-    if (!ensureSize()) return;
-    addToCart(product.id, size!);
+    if (!ensureSize() || !size) return;
+    addToCart(product.id, size, quantity);
     navigate({ to: "/thanh-toan" });
   };
 
@@ -97,45 +103,51 @@ function ProductPage() {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: "HOME", to: "/" }, { label: product.category, to: "/" }, { label: product.name }]} />
-      <div className="mx-auto grid max-w-[1350px] gap-8 pt-5 md:grid-cols-[minmax(0,478fr)_minmax(0,638fr)] md:gap-[7.5%] md:px-[7%]">
-        <div className="flex snap-x snap-mandatory gap-1 overflow-x-auto md:flex-col md:gap-2 md:overflow-visible">
-          {imgs.map((src, i) => (
-            <button key={i} onClick={() => setLightbox(i)} aria-label={`Xem ảnh ${i + 1}`} className="img-soft relative aspect-[2/3] w-full shrink-0 snap-center overflow-hidden bg-placeholder">
-              <img src={src} alt={`${product.name} ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} className="absolute inset-0 h-full w-full object-cover" />
-            </button>
-          ))}
-        </div>
-
-        <div className="px-[12px] md:px-0 md:sticky md:top-4 md:self-start">
-          <h1 className="text-[19px] uppercase tracking-[0.02em]">{product.name}</h1>
-          <p className="mt-2 text-[19px] font-medium text-foreground">{formatVND(product.price)}</p>
-          <hr className="my-5" />
-          <p className="mb-2 text-[13px] font-medium text-foreground">Size</p>
+      <Breadcrumbs items={[{ label: "Trang chủ", to: "/" }, { label: product.category, to: "/categories/tat-ca-san-pham" }, { label: product.name }]} />
+      <div className="mx-auto grid max-w-[1440px] gap-6 px-3 pt-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:gap-7 md:px-6 lg:gap-8 lg:px-10">
+        <ProductGallery key={product.id} images={imgs} name={product.name} wished={isWished(product.id)} onWish={() => toggleWish(product.id)} onZoom={setLightbox} />
+        <div className="min-w-0 md:self-start" data-motion-static>
+          <p className="mb-2 text-xs font-medium uppercase text-muted-foreground">CELIA / {product.category}</p>
+          <h1 className="text-[22px] leading-tight tracking-normal">{product.name}</h1>
+          <p className="mt-3 text-[30px] font-bold leading-tight text-sale">{formatVND(product.price)}</p>
+          <div className="mt-5 border-y bg-muted px-4 py-3 text-[13px]">
+            <p className="font-medium">Chi tiết sản phẩm</p>
+            <p className="mt-1 leading-relaxed text-muted-foreground">{product.description}</p>
+          </div>
+          {product.color && <div className="mt-5">
+            <p className="mb-2 text-[14px] font-medium">Màu sắc</p>
+            <span className="inline-flex min-h-9 items-center border border-foreground bg-foreground px-5 text-[13px] text-primary-foreground">{product.color}</span>
+          </div>}
+          <p className="mb-2 mt-4 text-[14px] font-medium">Kích thước</p>
           <div ref={sizeRef} role="radiogroup" aria-label="Kích cỡ" className="flex gap-2">
             {SIZES.map((s) => {
               const out = product.stock[s] <= 0;
-              return (
-                <button
-                  key={s} role="radio" aria-checked={size === s} disabled={out}
-                  aria-label={out ? `${s} — hết hàng` : s}
-                  onClick={() => { setSize(s); setErr(""); }}
-                  className={cn("relative h-10 w-10 rounded-sm border text-[13px] font-normal transition-colors duration-150",
-                    size === s ? "border-foreground bg-foreground text-primary-foreground" : "border-input bg-background text-foreground hover:border-foreground",
-                    out && "cursor-not-allowed text-muted-foreground line-through hover:border-input")}
-                >{s}</button>
-              );
+              return <Button variant="outline" key={s} role="radio" aria-checked={size === s} disabled={out} aria-label={out ? `${s} — hết hàng` : s}
+                onClick={() => { setSize(s); setQuantity(1); setErr(""); }}
+                className={cn("h-9 min-w-14 rounded-none px-4 text-[13px] shadow-none", size === s ? "border-foreground bg-foreground text-primary-foreground hover:bg-cart-hover hover:text-primary-foreground" : "border-input bg-background text-foreground hover:border-foreground", out && "text-muted-foreground line-through")}>{s}</Button>;
             })}
           </div>
           {err && <p role="alert" className="mt-2 text-[12px] text-sale">{err}</p>}
-          <button onClick={() => setSizeChart(true)} className="mt-3 text-[13px] font-light underline underline-offset-4">Bảng Size</button>
-          <hr className="my-5" />
-          <button onClick={onBuy} className="mt-[10px] h-[46px] w-full bg-buy text-[14px] font-bold tracking-[0.02em] text-primary-foreground transition-colors duration-150 hover:bg-buy-hover">MUA NGAY</button>
-          <button onClick={onAdd} disabled={busy} className="mt-[10px] h-[46px] w-full bg-cart text-[13px] font-bold tracking-[0.02em] text-primary-foreground transition-colors duration-150 hover:bg-cart-hover">Thêm vào giỏ hàng</button>
+          <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2">
+            <div className="min-w-0">
+              <p className="mb-2 text-[14px] font-medium">Số lượng</p>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="icon" aria-label="Giảm số lượng" disabled={quantity <= 1} onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="h-8 w-8 rounded-none shadow-none"><Minus /></Button>
+                <output aria-label="Số lượng đã chọn" className="w-7 text-center text-[15px]">{quantity}</output>
+                <Button size="icon" aria-label="Tăng số lượng" disabled={!size || quantity >= available} onClick={() => setQuantity((q) => Math.min(available, q + 1))} className="h-8 w-8 rounded-none shadow-none"><Plus /></Button>
+                {size && <span className="ml-1 text-xs text-muted-foreground">Kho: {available}</span>}
+              </div>
+            </div>
+            <Button variant="link" onClick={() => setSizeChart(true)} className="h-8 gap-1 px-0 text-[13px] underline underline-offset-4"><Ruler />Bảng size</Button>
+          </div>
+          <div className="mt-6 grid grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-3">
+            <Button onClick={onAdd} disabled={busy} variant="secondary" className="h-12 whitespace-normal rounded-none px-2 text-[14px] shadow-none"><ShoppingCart />Thêm vào giỏ</Button>
+            <Button onClick={onBuy} className="h-12 rounded-none bg-buy px-2 text-[14px] font-bold text-primary-foreground shadow-none hover:bg-buy-hover"><ShoppingBag />MUA NGAY</Button>
+          </div>
           <div className="mt-6 border-t">
             <Accordion title="Chi Tiết Sản Phẩm"><p>{product.description}</p><p className="mt-2">Màu sắc: {product.color}</p></Accordion>
             <Accordion title="Chính sách bảo hành và đổi trả"><p>Nội dung chính sách đang được CELIA cập nhật.</p></Accordion>
-            <Accordion title="Bảng Size"><p>Bảng size chính thức đang được cập nhật. <button className="underline" onClick={() => setSizeChart(true)}>Mở bảng size</button></p></Accordion>
+            <Accordion title="Bảng Size"><p>Bảng size chính thức đang được cập nhật. <Button variant="link" className="h-auto p-0" onClick={() => setSizeChart(true)}>Mở bảng size</Button></p></Accordion>
             <Accordion title="Chính sách giao, nhận và kiểm hàng"><p>Nội dung chính sách đang được CELIA cập nhật.</p></Accordion>
           </div>
         </div>
@@ -158,8 +170,8 @@ function ProductPage() {
               <img src={imgs[lightbox]} alt={product.name} className="max-h-[86vh] w-full object-contain" />
               {imgs.length > 1 && (
                 <>
-                  <button aria-label="Ảnh trước" onClick={() => setLightbox((lightbox - 1 + imgs.length) % imgs.length)} className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-background/80"><ChevronLeft className="h-5 w-5" /></button>
-                  <button aria-label="Ảnh sau" onClick={() => setLightbox((lightbox + 1) % imgs.length)} className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-background/80"><ChevronRight className="h-5 w-5" /></button>
+                  <Button variant="ghost" aria-label="Ảnh trước" onClick={() => setLightbox((lightbox - 1 + imgs.length) % imgs.length)} className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-background/80"><ChevronLeft className="h-5 w-5" /></Button>
+                  <Button variant="ghost" aria-label="Ảnh sau" onClick={() => setLightbox((lightbox + 1) % imgs.length)} className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-background/80"><ChevronRight className="h-5 w-5" /></Button>
                 </>
               )}
               <span className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-0.5 text-[12px]">{lightbox + 1} / {imgs.length}</span>

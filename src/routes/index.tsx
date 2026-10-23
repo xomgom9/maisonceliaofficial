@@ -14,6 +14,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Khám phá những thiết kế tôn dáng, tinh tế trong từng chi tiết." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: bannerLeclosion.url },
+      { name: "twitter:image", content: bannerLeclosion.url },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQuery),
@@ -32,7 +34,7 @@ function SectionHead({ title, link = true }: { title: string; link?: boolean }) 
 }
 
 function Grid4({ items }: { items: Product[] }) {
-  return <ProductCarousel items={items} gridClass="lg:grid-cols-4" />;
+  return <ProductCarousel items={items} gridClass="md:grid-cols-4" compact />;
 }
 
 function Hero() {
