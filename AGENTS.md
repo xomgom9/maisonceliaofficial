@@ -16,3 +16,4 @@
 - Admin lives under src/routes/_authenticated/admin*; it uses the browser Supabase client and relies on RLS role helpers (can_manage_products/can_manage_orders) — no server-side admin key needed.
 
 - MotionProvider owns persisted visitor motion preferences and observes storefront text after hydration; CSS and slideshow timers share its resolved mode so accessibility changes apply consistently without hiding SSR content.
+- ProductCard's compact variant is used by homepage carousels; ProductGallery owns the detail page's selected-image presentation so catalog cards retain their existing layout and the gallery does not duplicate full-size photos down the page.
